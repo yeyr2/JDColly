@@ -8,6 +8,8 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"reptile-test-go/setting"
+	"strings"
 	"time"
 )
 
@@ -24,7 +26,6 @@ func StartColly(con *gin.Context) {
 
 func getInfoByJDKey(key string, hots *[]*Hot) {
 	c := colly.NewCollector(
-		//colly.UserAgent(UserAgent),
 		colly.AllowURLRevisit(),
 		colly.Async(true),
 	)
@@ -33,19 +34,19 @@ func getInfoByJDKey(key string, hots *[]*Hot) {
 	err := c.Limit(&colly.LimitRule{
 		DomainRegexp: `search.jd.com`,
 		RandomDelay:  500 * time.Millisecond,
-		Parallelism:  24,
+		Parallelism:  12,
 	})
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	c1 := colly.NewCollector(
-		colly.AllowURLRevisit(),
 		colly.Async(true),
 	)
+	extensions.RandomUserAgent(c1)
 
 	//设置代理
-	//rp, err := proxy.RoundRobinProxySwitcher("socks5://127.0.0.1:1337", "socks5://127.0.0.1:1338")
+	//rp, err := proxy.RoundRobinProxySwitcher("socks5://127.0.0.1:1080", "socks5://127.0.0.1:1090")
 	//if err != nil {
 	//	log.Fatal(err)
 	//}
@@ -63,11 +64,12 @@ func getInfoByJDKey(key string, hots *[]*Hot) {
 		hot.Url = "https:" + hot.Url
 		hot.ProductId = e.Attr("data-sku")
 
-		hot.Status = GetCommentByUrl(hot)
+		// 保存图片
+		tmp := strings.Split(hot.Img, "/")
+		fileName := fmt.Sprintf("images/img%s", tmp[len(tmp)-1])
 
-		fileName := fmt.Sprintf("images/img%s.jpg", hot.ProductId)
 		c1.OnResponse(func(r *colly.Response) {
-			err := r.Save(fileName)
+			err := r.Save(r.Ctx.Get("file"))
 			if err != nil {
 				log.Printf("saving %s failed:%v\n", fileName, err)
 			} else {
@@ -75,18 +77,16 @@ func getInfoByJDKey(key string, hots *[]*Hot) {
 			}
 		})
 
-		hot.Img = "http://127.0.0.1:9090/" + fileName
+		c1.OnRequest(func(r *colly.Request) {
+			tmp := strings.Split(r.URL.String(), "/")
+			fileName := fmt.Sprintf("images/img%s", tmp[len(tmp)-1])
+			r.Ctx.Put("file", fileName)
+		})
+
 		c1.Visit(hot.Img)
 
+		hot.Img = "http://" + setting.Host + ":" + setting.Port + "/" + fileName
 		*hots = append(*hots, hot)
-	})
-
-	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Requesting:", r.URL)
-	})
-
-	c.OnResponse(func(r *colly.Response) {
-		fmt.Println("Response:", len(r.Body))
 	})
 
 	key = url.PathEscape(key)

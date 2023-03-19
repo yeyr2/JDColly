@@ -1,14 +1,23 @@
 package api
 
 type Hot struct {
-	Img       string     `selector:"div.gl-i-wrap > div.p-img > a > img" attr:"data-lazy-img" json:"img,omitempty"`
-	Price     string     `selector:"div.gl-i-wrap > div.p-price > strong > i" json:"price,omitempty"`
-	Name      string     `selector:"div.gl-i-wrap > div.p-name> a > em" json:"name,omitempty"`
-	ProductId string     `json:"productId,omitempty"`
-	Title     string     `selector:"div.gl-i-wrap > div.p-name > a" attr:"title" json:"title,omitempty"`
-	Url       string     `selector:"div.gl-i-wrap > div.p-img > a" attr:"href"`
-	Comments  []Comments `json:"comments"`
-	Status    string     `selector:"-:all" json:"status,omitempty"` // 欢迎状况
+	Img       string `selector:"div.gl-i-wrap > div.p-img > a > img" attr:"data-lazy-img" json:"img,omitempty"`
+	Price     string `selector:"div.gl-i-wrap > div.p-price > strong > i" json:"price,omitempty"`
+	Name      string `selector:"div.gl-i-wrap > div.p-name> a > em" json:"name,omitempty"`
+	ProductId string `json:"productId,omitempty"`
+	Title     string `selector:"div.gl-i-wrap > div.p-name > a" attr:"title" json:"title,omitempty"`
+	Url       string `selector:"div.gl-i-wrap > div.p-img > a" attr:"href"`
+}
+
+type AnalyzeComment struct {
+	fraction string     //总评分数
+	interval []Interval //区间分数(5段)
+	analyze  []string   //评论词云
+}
+
+type Interval struct {
+	interval   string // 区间分数(占比)
+	ScoreRange string // 区间(例如:[0.0,2.0) )
 }
 
 type JDComment struct {

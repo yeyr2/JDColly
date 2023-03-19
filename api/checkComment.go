@@ -6,20 +6,29 @@ import (
 	"github.com/gocolly/colly/extensions"
 	"log"
 	"strconv"
+	"time"
 )
 
-func GetCommentByUrl(hot *Hot) string {
-	for i := 0; i < 30; i++ {
-		go AddComment(hot, i)
+func GetCommentById(id string, comment *JDComment) bool {
+	chans := make(chan *[]Comments, 30)
+
+	for i := 0; i < 20; i++ {
+		go AddComment(id, i, chans)
+
+		// 防止爬得过快
+		time.Sleep(100 * time.Millisecond)
 	}
 
-	return "0"
+	for i := 0; i < 20; i++ {
+		(*comment).Comments = append((*comment).Comments, *(<-chans)...)
+	}
+
+	return true
 }
 
-func AddComment(hot *Hot, i int) {
-	hot.Comments = make([]Comments, 0, 30)
+func AddComment(id string, i int, chans chan *[]Comments) {
 
-	newUrl := GetCommentUrl(hot.ProductId, strconv.Itoa(i))
+	newUrl := GetCommentUrl(id, strconv.Itoa(i))
 	result := SendHttp(newUrl)
 
 	var tmp JDComment
@@ -31,7 +40,7 @@ func AddComment(hot *Hot, i int) {
 		log.Fatalln(err)
 	}
 
-	hot.Comments = append(hot.Comments, tmp.Comments...)
+	chans <- &tmp.Comments
 }
 
 func GetCommentUrl(productId string, page string) string {
@@ -42,9 +51,15 @@ func SendHttp(urls string) (body *[]byte) {
 	body = new([]byte)
 	c := colly.NewCollector(
 		colly.AllowURLRevisit(),
-		//colly.Async(true),
 	)
 	extensions.RandomUserAgent(c)
+
+	//rp, err := proxy.RoundRobinProxySwitcher("socks5://127.0.0.1:1080", "socks5://127.0.0.1:1090")
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//c.SetProxyFunc(rp)
+	//c.SetProxyFunc(http.ProxyFromEnvironment)
 
 	c.OnRequest(func(r *colly.Request) {
 		r.Headers.Add("Content-Type", "application/x-www-form-urlencoded;charset=GBK")
@@ -53,14 +68,24 @@ func SendHttp(urls string) (body *[]byte) {
 		r.Headers.Add("accept", " */*")
 		r.Headers.Add("accept-language", "zh-CN,zh;q=0.9")
 		r.Headers.Add("referer", "https://item.jd.com/")
-		//fmt.Println("url:", r.URL)
 	})
 
+	// Print the response
 	c.OnResponse(func(r *colly.Response) {
 		body = &r.Body
 	})
 
 	c.Visit(urls)
 
+	c.Wait()
+
 	return body
+}
+
+func AnalyzeGetComments(comment *JDComment, analyze *AnalyzeComment) {
+
+}
+
+func WordCloudAnalysis(comment *JDComment, analyze *AnalyzeComment) {
+
 }

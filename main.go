@@ -10,7 +10,7 @@ func main() {
 
 	initRouter(r)
 
-	err := r.Run(":9090")
+	err := r.Run("www.iyeyr2.top:9090")
 	if err != nil {
 		panic("run failed.")
 	}
