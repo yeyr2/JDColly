@@ -17,7 +17,7 @@ func GetCommentById(id string, comment *JDComment) bool {
 		go AddComment(id, i, chans)
 
 		// 防止爬得过快
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(1 * time.Second)
 	}
 
 	for i := 0; i < 20; i++ {
@@ -55,9 +55,9 @@ func SendHttp(urls string) (body *[]byte) {
 	)
 	extensions.RandomUserAgent(c)
 
-	rp, err := proxy.RoundRobinProxySwitcher("http://127.0.0.1:1080", "http://127.0.0.1:1081")
+	rp, err := proxy.RoundRobinProxySwitcher("http://117.74.65.215:8082", "http://103.151.60.204:80")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("proxy:", err)
 	}
 	c.SetProxyFunc(rp)
 	//c.SetProxyFunc(http.ProxyFromEnvironment)

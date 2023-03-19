@@ -47,7 +47,7 @@ func getInfoByJDKey(key string, hots *[]*Hot) {
 	extensions.RandomUserAgent(c1)
 
 	//设置代理
-	rp, err := proxy.RoundRobinProxySwitcher("socks5://127.0.0.1:1080", "socks5://127.0.0.1:1090")
+	rp, err := proxy.RoundRobinProxySwitcher("socks5://127.0.0.1:1080", "socks5://127.0.0.1:1081")
 	if err != nil {
 		log.Fatal(err)
 	}
