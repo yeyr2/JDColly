@@ -7,8 +7,8 @@ import (
 )
 
 func init() {
-	setting.Socks5("1080")
-	setting.Socks5("1081")
+	go setting.Socks5("1080")
+	go setting.Socks5("1081")
 }
 
 func main() {
