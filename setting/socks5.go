@@ -20,7 +20,7 @@ const atypeIPV6 = 0x04
 func Socks5(port string) {
 	server, err := net.Listen("tcp", "127.0.0.1:"+port)
 	if err != nil {
-		panic(err)
+		log.Fatalln("socks5 23:", err)
 	}
 	for {
 		client, err := server.Accept()
