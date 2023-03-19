@@ -1,6 +1,8 @@
 package setting
 
-const Host = "www.iyeyr2.top"
+// const Host = "www.iyeyr2.top"
+
+const Host = "47.100.16.28"
 const Port = "9090"
 
 //var Host = "127.0.0.1" // 获取ip地址

@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/extensions"
+	"github.com/gocolly/colly/proxy"
 	"log"
 	"net/http"
 	"net/url"
@@ -46,11 +47,11 @@ func getInfoByJDKey(key string, hots *[]*Hot) {
 	extensions.RandomUserAgent(c1)
 
 	//设置代理
-	//rp, err := proxy.RoundRobinProxySwitcher("socks5://127.0.0.1:1080", "socks5://127.0.0.1:1090")
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//c.SetProxyFunc(rp)
+	rp, err := proxy.RoundRobinProxySwitcher("://127.0.0.1:1080", "socks5://127.0.0.1:1090")
+	if err != nil {
+		log.Fatal(err)
+	}
+	c.SetProxyFunc(rp)
 
 	c.OnHTML("li.gl-item", func(e *colly.HTMLElement) {
 		hot := new(Hot)

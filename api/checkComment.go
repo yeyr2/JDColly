@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/extensions"
+	"github.com/gocolly/colly/proxy"
 	"log"
 	"strconv"
 	"time"
@@ -54,11 +55,11 @@ func SendHttp(urls string) (body *[]byte) {
 	)
 	extensions.RandomUserAgent(c)
 
-	//rp, err := proxy.RoundRobinProxySwitcher("socks5://127.0.0.1:1080", "socks5://127.0.0.1:1090")
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//c.SetProxyFunc(rp)
+	rp, err := proxy.RoundRobinProxySwitcher("http://127.0.0.1:1080", "http://127.0.0.1:1081")
+	if err != nil {
+		log.Fatal(err)
+	}
+	c.SetProxyFunc(rp)
 	//c.SetProxyFunc(http.ProxyFromEnvironment)
 
 	c.OnRequest(func(r *colly.Request) {

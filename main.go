@@ -3,7 +3,13 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"reptile-test-go/api"
+	"reptile-test-go/setting"
 )
+
+func init() {
+	setting.Socks5("1080")
+	setting.Socks5("1081")
+}
 
 func main() {
 	r := gin.Default()
