@@ -1,5 +1,11 @@
 package api
 
+type Response struct {
+	StatusCode int32  `json:"status_code"`          // 0为正常,其他为异常
+	StatusMsg  string `json:"status_msg,omitempty"` // 传给前端的信息
+	Value      any    `json:"value"`
+}
+
 type Hot struct {
 	Img       string `selector:"div.gl-i-wrap > div.p-img > a > img" attr:"data-lazy-img" json:"img,omitempty"`
 	Price     string `selector:"div.gl-i-wrap > div.p-price > strong > i" json:"price,omitempty"`

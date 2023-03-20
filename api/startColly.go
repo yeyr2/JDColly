@@ -18,11 +18,16 @@ const UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/5
 
 func StartColly(con *gin.Context) {
 	key := con.Query("key")
+
 	var hots []*Hot
 
 	getInfoByJDKey(key, &hots)
 
-	con.JSON(http.StatusOK, hots)
+	con.JSON(http.StatusOK, Response{
+		StatusCode: 0,
+		StatusMsg:  "",
+		Value:      hots,
+	})
 }
 
 func getInfoByJDKey(key string, hots *[]*Hot) {
