@@ -55,7 +55,7 @@ func SendHttp(urls string) (body *[]byte) {
 	)
 	extensions.RandomUserAgent(c)
 
-	rp, err := proxy.RoundRobinProxySwitcher("http://117.74.65.215:8082", "http://103.151.60.204:80")
+	rp, err := proxy.RoundRobinProxySwitcher("http://117.74.65.215:8082", "http://103.151.60.204:80", "http://188.165.227.155:5397")
 	if err != nil {
 		log.Fatal("proxy:", err)
 	}
