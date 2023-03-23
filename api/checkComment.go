@@ -6,6 +6,7 @@ import (
 	"github.com/gocolly/colly/extensions"
 	"github.com/gocolly/colly/proxy"
 	"log"
+	"reptile-test-go/api/sql"
 	"strconv"
 	"time"
 )
@@ -104,6 +105,8 @@ func JsonBody(body *[]byte, lastTime int64, chans chan *[]Comments) {
 		return
 	}
 
+	translation(&tmp)
+	go sql.SaveComment(tmp)
 	DeleteCommentByLastTime(&tmp.Comments, lastTime)
 
 	chans <- &tmp.Comments
@@ -142,6 +145,9 @@ func GetTotalPages(id string, comment *JDComment, lastTime int64) {
 		if err != nil {
 			log.Println(err)
 		}
+
+		translation(comment)
+		go sql.SaveComment(*comment)
 
 		DeleteCommentByLastTime(&comment.Comments, lastTime)
 	})

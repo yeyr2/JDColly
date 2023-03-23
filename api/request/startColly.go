@@ -1,4 +1,4 @@
-package api
+package request
 
 import (
 	"fmt"
@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"reptile-test-go/api"
 	"reptile-test-go/setting"
 	"strings"
 	"time"
@@ -19,18 +20,18 @@ const UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/5
 func StartColly(con *gin.Context) {
 	key := con.Query("key")
 
-	var hots []*Hot
+	var hots []*api.Hot
 
 	getInfoByJDKey(key, &hots)
 
-	con.JSON(http.StatusOK, Response{
+	con.JSON(http.StatusOK, api.Response{
 		StatusCode: 0,
 		StatusMsg:  "",
 		Value:      hots,
 	})
 }
 
-func getInfoByJDKey(key string, hots *[]*Hot) {
+func getInfoByJDKey(key string, hots *[]*api.Hot) {
 	c := colly.NewCollector(
 		colly.AllowURLRevisit(),
 		colly.Async(true),
@@ -59,7 +60,7 @@ func getInfoByJDKey(key string, hots *[]*Hot) {
 	c.SetProxyFunc(rp)
 
 	c.OnHTML("li.gl-item", func(e *colly.HTMLElement) {
-		hot := new(Hot)
+		hot := new(api.Hot)
 
 		err := e.Unmarshal(hot)
 		if err != nil {

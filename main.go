@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"os"
-	"reptile-test-go/api"
+	"reptile-test-go/api/request"
 	"reptile-test-go/setting"
 	"time"
 )
@@ -34,9 +34,9 @@ func initRouter(r *gin.Engine) {
 
 	ans := r.Group("/new")
 
-	ans.GET("/colly", api.StartColly)
-	ans.GET("/comment", api.GetComment)
-	ans.GET("/login", api.Login)
+	ans.GET("/colly", request.StartColly)
+	ans.GET("/comment", request.GetComment)
+	ans.GET("/login", request.Login)
 }
 
 func Logger() gin.HandlerFunc {
