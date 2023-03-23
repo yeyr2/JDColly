@@ -7,10 +7,11 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"reptile-test-go/api/cmd"
 	"strings"
 )
 
-func translation(comments *JDComment) {
+func translation(comments *cmd.JDComment) {
 	var text strings.Builder
 
 	for i, comment := range (*comments).Comments {

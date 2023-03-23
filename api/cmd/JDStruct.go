@@ -1,4 +1,4 @@
-package api
+package cmd
 
 type Response struct {
 	StatusCode int32  `json:"status_code"`          // 0为正常,其他为异常

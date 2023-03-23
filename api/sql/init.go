@@ -16,7 +16,7 @@ func init() {
 
 func ServiceSql() {
 	var err error
-	dsn := setting.User + ":" + setting.Pass + "@tcp(127.0.0.1:3306)/jdColly?charaset=utf8mb4&parseTime=True&loc=Local"
+	dsn := setting.User + ":" + setting.Pass + "@tcp(127.0.0.1:3306)/jdColly?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {

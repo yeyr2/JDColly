@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"reptile-test-go/api"
+	"reptile-test-go/api/cmd"
 	"strconv"
 )
 
@@ -12,8 +13,8 @@ func GetComment(c *gin.Context) {
 	isColly, _ := strconv.Atoi(c.Query("isColly"))
 	lastTime, _ := strconv.ParseInt(c.Query("lastTime"), 0, 64)
 
-	var analyze api.AnalyzeComment
-	var comment api.JDComment
+	var analyze cmd.AnalyzeComment
+	var comment cmd.JDComment
 
 	if isColly != 1 {
 		// 获取评论
@@ -23,7 +24,7 @@ func GetComment(c *gin.Context) {
 		// 分析获取的评价(总评价,评价区间)
 		flag := api.AnalyzeGetComments(&comment, &analyze)
 		if !flag {
-			c.JSON(http.StatusOK, api.Response{
+			c.JSON(http.StatusOK, cmd.Response{
 				StatusCode: 1,
 				StatusMsg:  "没有评论",
 			})
@@ -37,7 +38,7 @@ func GetComment(c *gin.Context) {
 		api.GetWordCloudAndAnalyzeRating(&analyze, id, lastTime)
 	}
 
-	c.JSON(http.StatusOK, api.Response{
+	c.JSON(http.StatusOK, cmd.Response{
 		StatusCode: 0,
 		StatusMsg:  "",
 		Value:      analyze,

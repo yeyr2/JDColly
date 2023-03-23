@@ -1,7 +1,7 @@
 package sql
 
 import (
-	"reptile-test-go/api"
+	"reptile-test-go/api/cmd"
 )
 
 type sqlComment struct {
@@ -15,7 +15,7 @@ func (s sqlComment) TableName() string {
 	return "comments"
 }
 
-func SaveComment(comments api.JDComment) {
+func SaveComment(comments cmd.JDComment) {
 	sqlCom := make([]sqlComment, 0, len(comments.Comments))
 
 	for _, comment := range comments.Comments {

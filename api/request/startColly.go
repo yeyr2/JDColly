@@ -9,7 +9,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"reptile-test-go/api"
+	"reptile-test-go/api/cmd"
 	"reptile-test-go/setting"
 	"strings"
 	"time"
@@ -20,18 +20,18 @@ const UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/5
 func StartColly(con *gin.Context) {
 	key := con.Query("key")
 
-	var hots []*api.Hot
+	var hots []*cmd.Hot
 
 	getInfoByJDKey(key, &hots)
 
-	con.JSON(http.StatusOK, api.Response{
+	con.JSON(http.StatusOK, cmd.Response{
 		StatusCode: 0,
 		StatusMsg:  "",
 		Value:      hots,
 	})
 }
 
-func getInfoByJDKey(key string, hots *[]*api.Hot) {
+func getInfoByJDKey(key string, hots *[]*cmd.Hot) {
 	c := colly.NewCollector(
 		colly.AllowURLRevisit(),
 		colly.Async(true),
@@ -60,7 +60,7 @@ func getInfoByJDKey(key string, hots *[]*api.Hot) {
 	c.SetProxyFunc(rp)
 
 	c.OnHTML("li.gl-item", func(e *colly.HTMLElement) {
-		hot := new(api.Hot)
+		hot := new(cmd.Hot)
 
 		err := e.Unmarshal(hot)
 		if err != nil {

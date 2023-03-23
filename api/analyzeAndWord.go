@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"github.com/jonreiter/govader"
 	"math"
+	"reptile-test-go/api/cmd"
 )
 
-func GetWordCloudAndAnalyzeRating(analyze *AnalyzeComment, id string, lastTime int64) {
+func GetWordCloudAndAnalyzeRating(analyze *cmd.AnalyzeComment, id string, lastTime int64) {
 
 }
 
-func AnalyzeGetComments(comment *JDComment, analyze *AnalyzeComment) bool {
+func AnalyzeGetComments(comment *cmd.JDComment, analyze *cmd.AnalyzeComment) bool {
 	if len(comment.Comments) == 0 {
 		return false
 	}
@@ -39,7 +40,7 @@ func AnalyzeGetComments(comment *JDComment, analyze *AnalyzeComment) bool {
 		}
 	}
 
-	(*analyze).Interval = make([]Interval, 5)
+	(*analyze).Interval = make([]cmd.Interval, 5)
 	for i := 0; i < 5; i++ {
 		(*analyze).Interval[i].ScoreRange = fmt.Sprintf("[%d~%d]", i*20, 20*(i+1))
 		if count[i] != 0 {
@@ -57,6 +58,6 @@ func AnalyzeGetComments(comment *JDComment, analyze *AnalyzeComment) bool {
 	return true
 }
 
-func WordCloudAnalysis(comment *JDComment, analyze *AnalyzeComment) {
+func WordCloudAnalysis(comment *cmd.JDComment, analyze *cmd.AnalyzeComment) {
 
 }
