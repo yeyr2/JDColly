@@ -10,15 +10,15 @@ type Hot struct {
 	Img       string `selector:"div.gl-i-wrap > div.p-img > a > img" attr:"data-lazy-img" json:"img,omitempty"`
 	Price     string `selector:"div.gl-i-wrap > div.p-price > strong > i" json:"price,omitempty"`
 	Name      string `selector:"div.gl-i-wrap > div.p-name> a > em" json:"name,omitempty"`
-	ProductId string `json:"productId,omitempty"`
+	ProductId string `json:"product_id,omitempty"`
 	Title     string `selector:"div.gl-i-wrap > div.p-name > a" attr:"title" json:"title,omitempty"`
-	Url       string `selector:"div.gl-i-wrap > div.p-img > a" attr:"href"`
+	Url       string `selector:"div.gl-i-wrap > div.p-img > a" attr:"href" json:"url"`
 }
 
 type AnalyzeComment struct {
-	fraction string     //总评分数
-	interval []Interval //区间分数(5段)
-	analyze  []string   //评论词云
+	fraction    string     //总评分数
+	interval    []Interval //区间分数(5段)
+	analyzeWord []string   //评论词云
 }
 
 type Interval struct {

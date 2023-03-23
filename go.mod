@@ -4,11 +4,13 @@ go 1.19
 
 require (
 	github.com/bamzi/jobrunner v1.0.0
+	github.com/bas24/googletranslatefree v0.0.0-20220326200502-05ed9e639439
 	github.com/gin-gonic/gin v1.9.0
 	github.com/gocolly/colly v1.2.0
 	github.com/gocolly/redisstorage v0.0.0-20190812112800-1745c5e6d0ba
+	github.com/jonreiter/govader v0.0.0-20230129030235-c72a790a959e
 	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible
-	golang.org/x/text v0.8.0
+	github.com/sbinet/go-python v0.1.0
 )
 
 require (
@@ -39,6 +41,7 @@ require (
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.27.4 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
+	github.com/robertkrimen/otto v0.2.1 // indirect
 	github.com/robfig/cron/v3 v3.0.0 // indirect
 	github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d // indirect
 	github.com/temoto/robotstxt v1.1.2 // indirect
@@ -48,7 +51,10 @@ require (
 	golang.org/x/crypto v0.5.0 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
+	golang.org/x/text v0.8.0 // indirect
+	gonum.org/v1/gonum v0.8.2 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
+	gopkg.in/sourcemap.v1 v1.0.5 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

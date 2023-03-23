@@ -150,14 +150,6 @@ func GetTotalPages(id string, comment *JDComment, lastTime int64) {
 	c.Wait()
 }
 
-func AnalyzeGetComments(comment *JDComment, analyze *AnalyzeComment) {
-
-}
-
-func WordCloudAnalysis(comment *JDComment, analyze *AnalyzeComment) {
-
-}
-
 func DeleteCommentByLastTime(comments *[]Comments, lastTime int64) {
 	length := len(*comments)
 	for i := 0; i < length; i++ {

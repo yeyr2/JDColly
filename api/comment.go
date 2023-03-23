@@ -26,12 +26,12 @@ func GetComment(c *gin.Context) {
 		WordCloudAnalysis(&comment, &analyze)
 	} else {
 		// 从数据库中获取数据
-
+		GetWordCloudAndAnalyzeRating(&analyze, id, lastTime)
 	}
 
 	c.JSON(http.StatusOK, Response{
 		StatusCode: 0,
 		StatusMsg:  "",
-		Value:      comment,
+		Value:      analyze,
 	})
 }
