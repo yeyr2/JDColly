@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"reptile-test-go/api/request"
+	_ "reptile-test-go/api/sql"
 	"reptile-test-go/setting"
 	"time"
 )

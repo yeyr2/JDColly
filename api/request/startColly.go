@@ -24,6 +24,11 @@ func StartColly(con *gin.Context) {
 
 	getInfoByJDKey(key, &hots)
 
+	con.Header("Access-Control-Allow-Origin", "*")
+	con.Header("Access-Control-Allow-Methods", "*")
+
+	fmt.Println(con.Request.Header)
+
 	con.JSON(http.StatusOK, cmd.Response{
 		StatusCode: 0,
 		StatusMsg:  "",

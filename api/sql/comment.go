@@ -1,14 +1,15 @@
 package sql
 
 import (
+	"log"
 	"reptile-test-go/api/cmd"
 )
 
 type sqlComment struct {
-	productId int64  `gorm:"column:id"`
-	context   string `gorm:"column:context"`
-	enContext string `gorm:"column:EnContext"`
-	oldScore  int    `gorm:"column:oldScore"`
+	ProductId int64  `gorm:"column:product_id"`
+	Context   string `gorm:"column:context"`
+	EnContext string `gorm:"column:en_context"`
+	OldScore  int    `gorm:"column:old_score"`
 }
 
 func (s sqlComment) TableName() string {
@@ -16,20 +17,25 @@ func (s sqlComment) TableName() string {
 }
 
 func SaveComment(comments cmd.JDComment) {
-	sqlCom := make([]sqlComment, 0, len(comments.Comments))
+	if len(comments.Comments) == 0 {
+		return
+	}
+	sqlCom := make([]*sqlComment, 0, len(comments.Comments))
 
 	for _, comment := range comments.Comments {
 		if comment.UsefulVoteCount == 0 {
 			continue
 		}
-		tmp := sqlComment{
-			productId: comments.ProductCommentSummary.ProductID,
-			context:   comment.Content,
-			enContext: comment.EnContent,
-			oldScore:  comment.Score,
+		tmp := &sqlComment{
+			ProductId: comments.ProductCommentSummary.ProductID,
+			Context:   comment.Content,
+			EnContext: comment.EnContent,
+			OldScore:  comment.Score,
 		}
 		sqlCom = append(sqlCom, tmp)
 	}
-
-	db.Create(&sqlCom)
+	res := db.Create(sqlCom)
+	if res.RowsAffected == 0 {
+		log.Println(res.Error)
+	}
 }
