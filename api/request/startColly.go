@@ -24,22 +24,7 @@ func StartColly(con *gin.Context) {
 
 	getInfoByJDKey(key, &hots)
 
-	origin := con.GetHeader("Origin")
-
-	if origin != "" {
-		con.Header("Access-Control-Allow-Origin", origin)
-	}
-	con.Header("Access-Control-Allow-Methods", "*")
-
-	headers := con.GetHeader("Access-Control-Allow-Headers")
-	log.Println(headers)
-	if headers != "" {
-		con.Header("Access-Control-Allow-Headers", headers)
-	}
-
-	con.Header("Access-Control-Max-Age", "3600")
-
-	con.Header("Access-Control-Allow-Credentials", "true")
+	setHeader(con)
 
 	con.JSON(http.StatusOK, cmd.Response{
 		StatusCode: 0,
@@ -94,11 +79,7 @@ func getInfoByJDKey(key string, hots *[]*cmd.Hot) {
 
 		c1.OnResponse(func(r *colly.Response) {
 			err := r.Save(r.Ctx.Get("file"))
-			if err != nil {
-				log.Printf("saving %s failed:%v\n", fileName, err)
-			} else {
-				log.Printf("saving %s success\n", fileName)
-			}
+			go setting.WriteLogFile(fileName, "Images", err)
 		})
 
 		c1.OnRequest(func(r *colly.Request) {

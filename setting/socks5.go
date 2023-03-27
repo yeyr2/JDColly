@@ -123,7 +123,7 @@ func connect(reader *bufio.Reader, conn net.Conn) (err error) {
 	}
 	port := binary.BigEndian.Uint16(buf[:2])
 
-	log.Println("dial", addr, port)
+	go WriteLogFile(fmt.Sprintf("dial %v %v", addr, port), "Socks5", nil)
 	dest, err := net.Dial("tcp", fmt.Sprintf("%v:%v", addr, port))
 	if err != nil {
 		return fmt.Errorf("dial dst failed:%w", err)

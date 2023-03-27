@@ -5,14 +5,17 @@ import (
 	"github.com/jonreiter/govader"
 	"math"
 	"reptile-test-go/api/cmd"
+	"reptile-test-go/api/sql"
 )
 
-func GetWordCloudAndAnalyzeRating(analyze *cmd.AnalyzeComment, id string, lastTime int64) {
+func GetCommentBySql(id string, lastTime int64) *[]cmd.Comments {
+	comments := sql.GetComments(id, lastTime)
 
+	return comments
 }
 
-func AnalyzeGetComments(comment *cmd.JDComment, analyze *cmd.AnalyzeComment) bool {
-	if len(comment.Comments) == 0 {
+func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bool {
+	if len(*comment) == 0 {
 		return false
 	}
 	var sum [5]float64
@@ -20,7 +23,7 @@ func AnalyzeGetComments(comment *cmd.JDComment, analyze *cmd.AnalyzeComment) boo
 	counts, sums := 0, 0
 
 	sia := govader.NewSentimentIntensityAnalyzer()
-	for _, text := range comment.Comments {
+	for _, text := range *comment {
 		scores := sia.PolarityScores(text.EnContent)
 		if scores.Compound < -0.6 {
 			sum[0] += scores.Compound + 1
@@ -58,6 +61,6 @@ func AnalyzeGetComments(comment *cmd.JDComment, analyze *cmd.AnalyzeComment) boo
 	return true
 }
 
-func WordCloudAnalysis(comment *cmd.JDComment, analyze *cmd.AnalyzeComment) {
+func WordCloudAnalysis(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) {
 
 }
