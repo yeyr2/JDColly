@@ -24,10 +24,22 @@ func StartColly(con *gin.Context) {
 
 	getInfoByJDKey(key, &hots)
 
-	con.Header("Access-Control-Allow-Origin", "*")
+	origin := con.GetHeader("Origin")
+
+	if origin != "" {
+		con.Header("Access-Control-Allow-Origin", origin)
+	}
 	con.Header("Access-Control-Allow-Methods", "*")
 
-	fmt.Println(con.Request.Header)
+	headers := con.GetHeader("Access-Control-Allow-Headers")
+	log.Println(headers)
+	if headers != "" {
+		con.Header("Access-Control-Allow-Headers", headers)
+	}
+
+	con.Header("Access-Control-Max-Age", "3600")
+
+	con.Header("Access-Control-Allow-Credentials", "true")
 
 	con.JSON(http.StatusOK, cmd.Response{
 		StatusCode: 0,
