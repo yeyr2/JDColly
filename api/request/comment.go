@@ -40,7 +40,7 @@ func GetComment(c *gin.Context) {
 	// 获取词云分析
 	api.WordCloudAnalysis(comments, &analyze)
 
-	setHeader(c)
+	//setHeader(c)
 
 	c.JSON(http.StatusOK, cmd.Response{
 		StatusCode: 0,

@@ -24,7 +24,7 @@ func StartColly(con *gin.Context) {
 
 	getInfoByJDKey(key, &hots)
 
-	setHeader(con)
+	//setHeader(con)
 
 	con.JSON(http.StatusOK, cmd.Response{
 		StatusCode: 0,
