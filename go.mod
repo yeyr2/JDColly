@@ -11,6 +11,9 @@ require (
 	github.com/jonreiter/govader v0.0.0-20230129030235-c72a790a959e
 	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible
 	github.com/sbinet/go-python v0.1.0
+	github.com/wangbin/jiebago v0.3.2
+	gorm.io/driver/mysql v1.4.7
+	gorm.io/gorm v1.24.6
 )
 
 require (
@@ -61,6 +64,4 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/driver/mysql v1.4.7 // indirect
-	gorm.io/gorm v1.24.6 // indirect
 )
