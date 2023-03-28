@@ -9,7 +9,8 @@ import (
 	"net/url"
 	"reptile-test-go/api/cmd"
 	"reptile-test-go/api/sql"
-	"reptile-test-go/setting"
+	"reptile-test-go/config"
+	"reptile-test-go/middleware"
 	"strings"
 	"time"
 )
@@ -60,7 +61,7 @@ func GetInfoByJDKey(key string, hots *[]*cmd.Hot) {
 
 		c1.OnResponse(func(r *colly.Response) {
 			err := r.Save(r.Ctx.Get("file"))
-			go setting.WriteLogFile(fileName, "Images", err)
+			go middleware.WriteLogFile(fileName, "Images", err)
 		})
 
 		c1.OnRequest(func(r *colly.Request) {
@@ -71,7 +72,7 @@ func GetInfoByJDKey(key string, hots *[]*cmd.Hot) {
 
 		c1.Visit(hot.Img)
 
-		hot.Img = "http://" + setting.Host + "/" + fileName
+		hot.Img = "http://" + config.Host + "/" + fileName
 		hot.Key = key
 		*hots = append(*hots, hot)
 	})

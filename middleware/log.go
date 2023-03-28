@@ -1,4 +1,4 @@
-package setting
+package middleware
 
 import (
 	"bufio"

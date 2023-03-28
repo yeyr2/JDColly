@@ -1,4 +1,4 @@
-package setting
+package config
 
 // const Host = "www.iyeyr2.top"
 
