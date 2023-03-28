@@ -3,13 +3,9 @@ package api
 import (
 	"fmt"
 	"github.com/jonreiter/govader"
-	"io/ioutil"
 	"math"
-	"regexp"
 	"reptile-test-go/api/cmd"
 	"reptile-test-go/api/sql"
-	"sort"
-	"strings"
 )
 
 // 按照出现频率排序
@@ -72,46 +68,5 @@ func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bo
 }
 
 func WordCloudAnalysis(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) {
-	// 从文件中读取文本数据
-	data, err := ioutil.ReadFile("data.txt")
-	if err != nil {
-		panic(err)
-	}
 
-	// 将字符串转换为小写，去除标点符号和数字
-	re := regexp.MustCompile(`[^\pL]+`)
-	str := re.ReplaceAllString(strings.ToLower(string(data)), " ")
-
-	// 分词
-	words := strings.Fields(str)
-
-	// 去除停用词
-	stopwords := map[string]bool{
-		"the": true,
-		"and": true,
-		"or":  true,
-	}
-	var filteredWords []string
-	for _, word := range words {
-		if !stopwords[word] {
-			filteredWords = append(filteredWords, word)
-		}
-	}
-
-	// 统计单词出现频率
-	freq := make(map[string]int)
-	for _, word := range filteredWords {
-		freq[word]++
-	}
-
-	var sorted []kv
-	for k, v := range freq {
-		sorted = append(sorted, kv{k, v})
-	}
-	sort.Slice(sorted, func(i, j int) bool {
-		return sorted[i].Value > sorted[j].Value
-	})
-
-	// 创建词云
-	
 }

@@ -7,12 +7,13 @@ type Response struct {
 }
 
 type Hot struct {
-	Img       string `selector:"div.gl-i-wrap > div.p-img > a > img" attr:"data-lazy-img" json:"shop_img_src,omitempty"`
-	Price     string `selector:"div.gl-i-wrap > div.p-price > strong > i" json:"shop_price,omitempty"`
-	Name      string `selector:"div.gl-i-wrap > div.p-name> a > em" json:"shop_name,omitempty"`
-	ProductId string `json:"shop_product_id,omitempty"`
-	Title     string `selector:"div.gl-i-wrap > div.p-name > a" attr:"title" json:"shop_title,omitempty"`
-	Url       string `selector:"div.gl-i-wrap > div.p-img > a" attr:"href" json:"shop_url"`
+	Img       string `selector:"div.gl-i-wrap > div.p-img > a > img" attr:"data-lazy-img" json:"shopImgSrc,omitempty" gorm:"column:img"`
+	Price     string `selector:"div.gl-i-wrap > div.p-price > strong > i" json:"shopPrice,omitempty" gorm:"column:price"`
+	Name      string `selector:"div.gl-i-wrap > div.p-name> a > em" json:"shopName,omitempty" gorm:"column:name"`
+	ProductId string `json:"shopProduct_id,omitempty" gorm:"column:product_id"`
+	Title     string `selector:"div.gl-i-wrap > div.p-name > a" attr:"title" json:"shopTitle,omitempty" gorm:"column:title"`
+	Url       string `selector:"div.gl-i-wrap > div.p-img > a" attr:"href" json:"shopURL" gorm:"column:url"`
+	Key       string `gorm:"column:key"`
 }
 
 type AnalyzeComment struct {
@@ -85,4 +86,8 @@ type ProductCommentSummary struct {
 	Score3Count         int     `json:"score3Count"`
 	Score4Count         int     `json:"score4Count"`
 	Score5Count         int     `json:"score5Count"`
+}
+
+func (h *Hot) TableName() string {
+	return "infoColly"
 }
