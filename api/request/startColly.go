@@ -22,12 +22,14 @@ func StartColly(con *gin.Context) {
 
 	var hots []*cmd.Hot
 
-	if strings.TrimSpace(key) == "" {
+	t := key
+	if strings.TrimSpace(t) == "" {
 		con.JSON(http.StatusOK, cmd.Response{
 			StatusCode: 1,
 			StatusMsg:  "key不能为空",
 			Value:      nil,
 		})
+		return
 	}
 
 	getInfoByJDKey(key, &hots)
