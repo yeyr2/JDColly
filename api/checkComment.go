@@ -13,6 +13,7 @@ import (
 )
 
 var proxys = []string{"socks5://127.0.0.1:1080", "socks5://127.0.0.1:1081"}
+var productToLastTime = make(map[int64]int64)
 
 func GetCommentById(id string, lastTime int64, comment *cmd.JDComment) bool {
 
@@ -107,7 +108,7 @@ func JsonBody(body *[]byte, lastTime int64, chans chan *[]cmd.Comments) {
 	}
 
 	translation(&tmp)
-	go sql.SaveComment(tmp)
+	go sql.SaveComment(tmp, productToLastTime[tmp.ProductCommentSummary.ProductID])
 	DeleteCommentByLastTime(&tmp.Comments, lastTime)
 
 	chans <- &tmp.Comments
@@ -148,7 +149,9 @@ func GetTotalPages(id string, comment *cmd.JDComment, lastTime int64) {
 		}
 
 		translation(comment)
-		go sql.SaveComment(*comment)
+		lastTime = sql.CommentsLastTime(comment.ProductCommentSummary.ProductID)
+		go sql.SaveComment(*comment, lastTime)
+		productToLastTime[comment.ProductCommentSummary.ProductID] = lastTime
 
 		DeleteCommentByLastTime(&comment.Comments, lastTime)
 	})

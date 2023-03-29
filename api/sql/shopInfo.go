@@ -7,5 +7,14 @@ func GetShopInfoByKey(key string, hots *[]*cmd.Hot) {
 }
 
 func AddShopInfo(hots *[]*cmd.Hot) {
-	db.Create(hots)
+	if len(*hots) == 0 {
+		return
+	}
+
+	key := (*(*hots)[0]).Key
+
+	result := db.Where("`key` = ?", key).Find(&cmd.Hot{})
+	if result.RowsAffected == 0 {
+		db.Create(hots)
+	}
 }
