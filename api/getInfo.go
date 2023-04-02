@@ -86,7 +86,7 @@ func GetInfoByJDKey(key string, hots *[]*cmd.Hot) {
 	c.Wait()
 	c1.Wait()
 
-	go sql.AddShopInfo(hots)
+	go sql.AddShopInfo(hots, key)
 }
 
 func GetInfoByJDKeyBySql(key string, hots *[]*cmd.Hot) {

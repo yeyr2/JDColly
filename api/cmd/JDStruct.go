@@ -13,7 +13,7 @@ type Hot struct {
 	ProductId string `json:"shopProduct_id,omitempty" gorm:"column:product_id"`
 	Title     string `selector:"div.gl-i-wrap > div.p-name > a" attr:"title" json:"shopTitle,omitempty" gorm:"column:title"`
 	Url       string `selector:"div.gl-i-wrap > div.p-img > a" attr:"href" json:"shopURL" gorm:"column:url"`
-	Key       string `gorm:"column:key"`
+	Key       string `gorm:"column:key" json:"key,omitempty"`
 }
 
 type AnalyzeComment struct {
