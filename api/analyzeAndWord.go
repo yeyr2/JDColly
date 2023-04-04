@@ -1,10 +1,13 @@
 package api
 
 import (
+	"context"
 	"fmt"
 	"github.com/jonreiter/govader"
+	"log"
 	"math"
 	"reptile-test-go/api/cmd"
+	"reptile-test-go/api/goGRPC/wordsCloud"
 	"reptile-test-go/api/sql"
 )
 
@@ -68,5 +71,21 @@ func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bo
 }
 
 func WordCloudAnalysis(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) {
+	request := cmdFormRPC(comment)
+	response, err := client.WordCloudAnalysis(context.Background(), request)
+	if err != nil {
+		log.Fatalf("Failed to call SayHello: %v", err)
+	}
+	analyze.AnalyzeWord = response.WordsCloud
+	// 打印响应的message属性
+	//fmt.Println(response.GetWordsCloud())
+}
 
+func cmdFormRPC(comment *[]cmd.Comments) *wordsCloud.RpcComment {
+	ans := new(wordsCloud.RpcComment)
+	ans.Content = make([]string, 0, len(*comment))
+	for _, x := range *comment {
+		ans.Content = append(ans.Content, x.Content)
+	}
+	return ans
 }

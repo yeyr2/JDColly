@@ -25,10 +25,16 @@ func StartColly(con *gin.Context) {
 	}
 
 	var hots []*cmd.Hot
-	if isColly != 1 {
+	if isColly == 0 {
 		api.GetInfoByJDKey(key, &hots)
-	} else {
+	} else if isColly == 1 {
 		api.GetInfoByJDKeyBySql(key, &hots)
+	} else {
+		con.JSON(http.StatusOK, cmd.Response{
+			StatusCode: 1,
+			StatusMsg:  "isColly err",
+		})
+		return
 	}
 
 	//setHeader(con)
