@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package myservice;
+option go_package = "goGRPC/WordsCloud";
+
+message rpcComment {
+    repeated string Content = 1;
+}
+
+message rpcWordCloud {
+    string wordsCloud = 1;
+}
+
+service Greeter {
+    rpc WordCloudAnalysis (rpcComment) returns (rpcWordCloud) {}
+}
