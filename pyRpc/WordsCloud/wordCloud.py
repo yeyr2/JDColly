@@ -37,7 +37,7 @@ def word_cloud(text_str):
     else:
         font_path = font_path_ubuntu  # ubuntu
 
-    stopwords = set(map(str.strip, open('../stopwords/cn_stopwords.txt').readlines()))
+    stopwords = set(map(str.strip, open('./stopwords/cn_stopwords.txt').readlines()))
     wc = WordCloud(background_color="white",  # 设置背景颜色
                    max_words=2000,  # 词云显示的最大词数
                    height=400,  # 图片高度
@@ -48,14 +48,14 @@ def word_cloud(text_str):
                    ).generate(text_str)  # 此处的text便是分好词的19大文本
 
     # 生成的词云图像保存到本地
-    folder_name = "../images"
+    folder_name = "./images"
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
         print(f"Folder {folder_name} has been created.")
     else:
         print(f"Folder {folder_name} already exists.")
     paths = "1.jpg"
-    wc.to_file("../images/"+paths)
+    wc.to_file("./images/"+paths)
 
     # 显示图像
     # plt.imshow(wc, interpolation='bilinear')

@@ -21,8 +21,7 @@ RUN pip3 install --no-cache-dir -r requirements.txt && \
     apt-get install -y libproj-dev proj-data proj-bin libgeos-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-
-RUN pip3 install wordcloud jieba grpcio-tools protobuf
+    pip3 install wordcloud jieba grpcio-tools protobuf
 
 # RUN pip3 install -r requirements.txt
 
