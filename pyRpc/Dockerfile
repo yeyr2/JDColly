@@ -1,5 +1,5 @@
 # 使用官方 Python 镜像作为基础镜像
-FROM python:3.8
+FROM python:3.9
 
 # 设置工作目录
 WORKDIR /pyRpc
@@ -8,7 +8,18 @@ WORKDIR /pyRpc
 COPY . .
 
 # 安装 Python 依赖模块
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt && \
+    apt-get update && apt-get install -y \
+    libproj-dev \
+    proj-data \
+    proj-bin \
+    libgeos-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+
+RUN pip3 install wordcloud jieba grpcio-tools protobuf
+
+# RUN pip3 install -r requirements.txt
 
 # 暴露端口
 EXPOSE 50051
