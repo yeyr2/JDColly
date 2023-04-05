@@ -8,7 +8,9 @@ WORKDIR /pyRpc
 COPY . .
 
 # 设置容器网络为主机网络
+
 RUN apt-get update && apt-get install -y net-tools iputils-ping curl && \
+    python -m pip install --upgrade pip && \
     pip install -i https://mirrors.aliyun.com/pypi/simple/ flask && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
