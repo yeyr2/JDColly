@@ -5,7 +5,7 @@ import grpc
 
 import service.wordCloud_pb2 as wordCloud_pb2
 import service.wordCloud_pb2_grpc as wordCloud_pb2_grpc
-from pyRpc.WordsCloud import wordCloud
+from WordsCloud import wordCloud
 
 
 class GreeterServicer(wordCloud_pb2_grpc.GreeterServicer):
