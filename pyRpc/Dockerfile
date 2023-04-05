@@ -7,15 +7,18 @@ WORKDIR /pyRpc
 # 复制 Python 程序代码到镜像中
 COPY . .
 
+# 设置容器网络为主机网络
+RUN apt-get update && apt-get install -y net-tools iputils-ping curl && \
+    pip install -i https://mirrors.aliyun.com/pypi/simple/ flask && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # 安装 Python 依赖模块
 RUN pip3 install --no-cache-dir -r requirements.txt && \
-    apt-get update && apt-get install -y \
-    libproj-dev \
-    proj-data \
-    proj-bin \
-    libgeos-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
+    apt-get update && \
+    apt-get install -y libproj-dev proj-data proj-bin libgeos-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
 
 RUN pip3 install wordcloud jieba grpcio-tools protobuf
 
