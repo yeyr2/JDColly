@@ -149,9 +149,9 @@ func GetTotalPages(id string, comment *cmd.JDComment, lastTime int64) {
 		}
 
 		translation(comment)
-		lastTime = sql.CommentsLastTime(comment.ProductCommentSummary.ProductID)
-		go sql.SaveComment(*comment, lastTime)
-		productToLastTime[comment.ProductCommentSummary.ProductID] = lastTime
+		sqlLastTime := sql.CommentsLastTime(comment.ProductCommentSummary.ProductID)
+		go sql.SaveComment(*comment, sqlLastTime)
+		productToLastTime[comment.ProductCommentSummary.ProductID] = sqlLastTime
 
 		DeleteCommentByLastTime(&comment.Comments, lastTime)
 	})
