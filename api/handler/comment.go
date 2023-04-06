@@ -38,7 +38,7 @@ func GetComment(c *gin.Context) {
 	}
 
 	// 获取词云分析
-	api.WordCloudAnalysis(comments, &analyze)
+	api.WordCloudAnalysis(comments, &analyze, id)
 
 	//setHeader(c)
 

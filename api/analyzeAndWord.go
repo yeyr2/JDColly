@@ -68,13 +68,13 @@ func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bo
 	return true
 }
 
-func WordCloudAnalysis(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) {
+func WordCloudAnalysis(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, id string) {
 	if len(*comment) == 0 {
 		analyze.AnalyzeWord = ""
 		return
 	}
 
-	response := wordCloudRpc(comment)
+	response := wordCloudRpc(comment, id)
 	response = "http://" + config.Host + "/wordcloud/" + response
 	analyze.AnalyzeWord = response
 	//fmt.Println(response)

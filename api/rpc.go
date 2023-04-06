@@ -5,10 +5,10 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"reptile-test-go/api/cmd"
-	"reptile-test-go/api/goGRPC/wordsCloud"
+	"reptile-test-go/api/goGRPC/WordsCloud"
 )
 
-var client wordsCloud.GreeterClient
+var client WordsCloud.GreeterClient
 
 func init() {
 	// 创建gRPC连接
@@ -18,11 +18,12 @@ func init() {
 	}
 
 	// 创建Greeter客户端
-	client = wordsCloud.NewGreeterClient(conn)
+	client = WordsCloud.NewGreeterClient(conn)
 }
 
-func wordCloudRpc(comment *[]cmd.Comments) string {
+func wordCloudRpc(comment *[]cmd.Comments, id string) string {
 	request := cmdFormRPC(comment)
+	request.ProductId = id
 	response, err := client.WordCloudAnalysis(context.Background(), request)
 	if err != nil {
 		log.Fatalf("Failed to call SayHello: %v", err)
@@ -30,8 +31,8 @@ func wordCloudRpc(comment *[]cmd.Comments) string {
 	return response.WordsCloud
 }
 
-func cmdFormRPC(comment *[]cmd.Comments) *wordsCloud.RpcComment {
-	ans := new(wordsCloud.RpcComment)
+func cmdFormRPC(comment *[]cmd.Comments) *WordsCloud.RpcComment {
+	ans := new(WordsCloud.RpcComment)
 	ans.Content = make([]string, 0, len(*comment))
 	for _, x := range *comment {
 		ans.Content = append(ans.Content, x.Content)

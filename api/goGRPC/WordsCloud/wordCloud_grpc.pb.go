@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.21.12
-// source: WordsCloud.proto
+// source: wordCloud.proto
 
-package wordsCloud
+package WordsCloud
 
 import (
 	context "context"
@@ -101,5 +101,5 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "WordsCloud.proto",
+	Metadata: "wordCloud.proto",
 }

@@ -5,6 +5,7 @@ option go_package = "goGRPC/WordsCloud";
 
 message rpcComment {
     repeated string Content = 1;
+    string productId = 2;
 }
 
 message rpcWordCloud {

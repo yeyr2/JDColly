@@ -17,24 +17,19 @@ import (
 
 func GetInfoByJDKey(key string, hots *[]*cmd.Hot) {
 	c := colly.NewCollector(
-		colly.AllowURLRevisit(),
 		colly.Async(true),
 	)
 	extensions.RandomUserAgent(c)
 
-	err := c.Limit(&colly.LimitRule{
-		DomainRegexp: `search.jd.com`,
+	c1 := c.Clone()
+	err := c1.Limit(&colly.LimitRule{
+		DomainRegexp: `img12.360buyimg.com`,
 		RandomDelay:  500 * time.Millisecond,
-		Parallelism:  12,
+		Parallelism:  15,
 	})
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	c1 := colly.NewCollector(
-		colly.Async(true),
-	)
-	extensions.RandomUserAgent(c1)
 
 	//设置代理
 	rp, err := proxy.RoundRobinProxySwitcher("socks5://127.0.0.1:1080", "socks5://127.0.0.1:1081")
@@ -55,26 +50,28 @@ func GetInfoByJDKey(key string, hots *[]*cmd.Hot) {
 		hot.Url = "https:" + hot.Url
 		hot.ProductId = e.Attr("data-sku")
 
+		hot.Img = getClearImgUrl(hot.Img)
 		// 保存图片
 		tmp := strings.Split(hot.Img, "/")
 		fileName := fmt.Sprintf("images/img%s", tmp[len(tmp)-1])
-
-		c1.OnResponse(func(r *colly.Response) {
-			err := r.Save(r.Ctx.Get("file"))
-			go middleware.WriteLogFile(fileName, "Images", err)
-		})
-
-		c1.OnRequest(func(r *colly.Request) {
-			tmp := strings.Split(r.URL.String(), "/")
-			fileName := fmt.Sprintf("images/img%s", tmp[len(tmp)-1])
-			r.Ctx.Put("file", fileName)
-		})
 
 		c1.Visit(hot.Img)
 
 		hot.Img = "http://" + config.Host + "/" + fileName
 		hot.Key = key
 		*hots = append(*hots, hot)
+	})
+
+	c1.OnResponse(func(r *colly.Response) {
+		file := r.Ctx.Get("file")
+		err := r.Save(file)
+		go middleware.WriteLogFile(file, "Images", err)
+	})
+
+	c1.OnRequest(func(r *colly.Request) {
+		tmp := strings.Split(r.URL.String(), "/")
+		fileName := fmt.Sprintf("images/img%s", tmp[len(tmp)-1])
+		r.Ctx.Put("file", fileName)
 	})
 
 	keys := url.PathEscape(key)
@@ -91,4 +88,22 @@ func GetInfoByJDKey(key string, hots *[]*cmd.Hot) {
 
 func GetInfoByJDKeyBySql(key string, hots *[]*cmd.Hot) {
 	sql.GetShopInfoByKey(key, hots)
+}
+
+func getClearImgUrl(img string) string {
+	b := strings.Split(img, "/")
+	var c strings.Builder
+	for i, x := range b {
+		if i == 3 {
+			c.WriteString("n0")
+		} else {
+			c.WriteString(x)
+		}
+		if i != len(b)-1 {
+			c.WriteByte('/')
+		} else {
+			c.WriteString(".avif")
+		}
+	}
+	return c.String()
 }

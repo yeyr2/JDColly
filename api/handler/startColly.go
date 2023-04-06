@@ -9,8 +9,6 @@ import (
 	"strings"
 )
 
-const UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
-
 func StartColly(con *gin.Context) {
 	key := con.Query("key")
 	isColly, _ := strconv.Atoi(con.Query("isColly"))
