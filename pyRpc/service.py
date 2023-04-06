@@ -13,7 +13,6 @@ class GreeterServicer(wordCloud_pb2_grpc.GreeterServicer):
         # request.Content 是一个字符串列表
         # 并返回一个 wordCloud_pb2.rpcWordCloud 对象
         string = str(wordCloud.split_text(text=request.Content))
-        print(request)
         path = wordCloud.word_cloud(string, productId=request.productId)
         return wordCloud_pb2.rpcWordCloud(wordsCloud=path)
 
