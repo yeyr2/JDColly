@@ -4,7 +4,7 @@ FROM golang:1.19
 WORKDIR /JDColly
 
 # 复制 Go 程序代码到镜像中
-COPY .. .
+COPY . .
 
 RUN  go mod tidy && \
      go mod download && \
