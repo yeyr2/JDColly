@@ -18,6 +18,6 @@ func setHeader(con *gin.Context) {
 
 	header := con.Request.Header.Get("Access-Control-Allow-Headers")
 	if header == "" {
-		con.Header("Access-Control-Allow-Headers", "header")
+		con.Header("Access-Control-Allow-Headers", header)
 	}
 }

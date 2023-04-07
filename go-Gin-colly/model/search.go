@@ -1,6 +1,7 @@
 package sql
 
 import (
+	"fmt"
 	"reptile-test-go/cmd"
 	"time"
 )
@@ -29,7 +30,7 @@ func SetSearch(key string, id int64) error {
 	result = db.Create(&search)
 
 	if result.RowsAffected == 0 {
-		return result.Error
+		return fmt.Errorf("error : No search record")
 	}
 
 	return nil

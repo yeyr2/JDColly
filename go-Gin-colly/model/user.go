@@ -1,6 +1,7 @@
 package sql
 
 import (
+	"fmt"
 	"reptile-test-go/cmd"
 )
 
@@ -10,7 +11,7 @@ func CheckLogin(username string, password string) (*cmd.User, error) {
 	result := db.Where("username = ? and password = ?", username, password).Find(&user)
 
 	if result.RowsAffected == 0 {
-		return &user, result.Error
+		return &user, fmt.Errorf("error: username does not exist")
 	}
 
 	return &user, nil
@@ -38,7 +39,7 @@ func CreateUser(username string, password string) (*cmd.User, error) {
 
 	result := db.Create(&user)
 	if result.RowsAffected == 0 {
-		return &user, result.Error
+		return &user, fmt.Errorf("error: User registration failed")
 	}
 
 	return &user, nil
