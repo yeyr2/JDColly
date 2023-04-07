@@ -1,13 +1,13 @@
 reptile.go
-gin.log
+go-Gin-colly/gin.log
 
 WEB
 test/jobrunner
 test
 .idea
-logs
+go-Gin-colly/logs
 
-images
+go-Gin-colly/images
 wenzi
 venv
 slider

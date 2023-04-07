@@ -2,7 +2,7 @@ create database jdColly;
 
 create table comments
 (
-    id                int auto_increment
+    id                bigint auto_increment
         primary key,
     context           varchar(200)     null,
     en_context        varchar(200)     null,
@@ -14,7 +14,7 @@ create table comments
 
 create table infoColly
 (
-    id         int auto_increment
+    id         bigint auto_increment
         primary key,
     img        varchar(100) null,
     price      varchar(20)  null,
@@ -25,4 +25,21 @@ create table infoColly
     `key`      varchar(100) null
 );
 
+create table user(
+    id bigint auto_increment primary key ,
+    username varchar(50) not null default '用户01',
+    password varchar(100) not null,
+    sex varchar(2) not null default '未知',
+    phone_number varchar(20)  null default '无',
+    email varchar(30)  null default '无',
+    address varchar(100) null default '无',
+    emergency_contact varchar(20) default '无'
+#     login int default 0 check ( login in (0,1))
+);
 
+create table search(
+    id bigint auto_increment primary key ,
+    user_id bigint ,
+    `key` varchar(100),
+    create_time bigint
+)
