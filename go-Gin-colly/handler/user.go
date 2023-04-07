@@ -21,7 +21,7 @@ type UserResponse struct {
 func Login(c *gin.Context) {
 	username := c.PostForm("username")
 	password := fmt.Sprintf("%x", sha256.Sum256([]byte(c.PostForm("password"))))
-
+	fmt.Println("username:", username)
 	user, err := sql.CheckLogin(username, password)
 
 	if err != nil {
@@ -44,7 +44,7 @@ func Login(c *gin.Context) {
 func Register(c *gin.Context) {
 	username := c.PostForm("username")
 	password := fmt.Sprintf("%x", sha256.Sum256([]byte(c.PostForm("password"))))
-
+	fmt.Println("username:", username)
 	result := sql.CheckUserExist(username)
 	if result {
 		c.JSON(http.StatusOK, cmd.Response{
