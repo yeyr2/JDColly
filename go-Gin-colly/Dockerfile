@@ -11,7 +11,7 @@ RUN  go mod tidy && \
      go build main.go
 
 # 暴露端口
-EXPOSE 9090 80
+EXPOSE 9090 80 50051 50052
 
 # 启动应用程序
 CMD ["./main"]
