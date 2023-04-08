@@ -13,7 +13,8 @@ func GetComment(c *gin.Context) {
 	id := c.Query("id")
 	isColly, _ := strconv.Atoi(c.Query("isColly"))
 	lastTime, _ := strconv.ParseInt(c.Query("lastTime"), 0, 64)
-	token, _ := c.Cookie("token")
+	//token, _ := c.Cookie("token")
+	token := c.Query("token")
 	log.Println(token)
 
 	if _, err := logic.ParseToken(token); err != nil {

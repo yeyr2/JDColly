@@ -10,7 +10,8 @@ import (
 )
 
 func SearchInfo(c *gin.Context) {
-	token, _ := c.Cookie("token")
+	//token, _ := c.Cookie("token")
+	token := c.Query("token")
 	log.Println(token)
 
 	cl, err := logic.ParseToken(token)
