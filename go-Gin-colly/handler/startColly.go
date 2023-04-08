@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
@@ -15,6 +16,7 @@ func StartColly(con *gin.Context) {
 	isColly, _ := strconv.Atoi(con.Query("isColly"))
 	token, _ := con.Cookie("token")
 	cl, err := logic.ParseToken(token)
+	log.Println(token)
 
 	if err != nil {
 		con.JSON(http.StatusOK, cmd.Response{

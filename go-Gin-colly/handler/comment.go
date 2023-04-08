@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
@@ -13,6 +14,7 @@ func GetComment(c *gin.Context) {
 	isColly, _ := strconv.Atoi(c.Query("isColly"))
 	lastTime, _ := strconv.ParseInt(c.Query("lastTime"), 0, 64)
 	token, _ := c.Cookie("token")
+	log.Println(token)
 
 	if _, err := logic.ParseToken(token); err != nil {
 		c.JSON(http.StatusOK, cmd.Response{
