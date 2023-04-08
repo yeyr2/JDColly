@@ -8,7 +8,7 @@ import (
 func CheckLogin(username string, password string) (*cmd.User, error) {
 	var user cmd.User
 
-	result := db.Where("username = ? and password = ?", username, password).Find(&user)
+	result := db.Select("id").Where("username = ? and password = ?", username, password).Find(&user)
 
 	if result.RowsAffected == 0 {
 		return &user, fmt.Errorf("error: username does not exist")
@@ -20,7 +20,7 @@ func CheckLogin(username string, password string) (*cmd.User, error) {
 func CheckUserExist(username string) bool {
 	var user cmd.User
 
-	result := db.Where("username = ?", username).Find(&user)
+	result := db.Select("id").Where("username = ?", username).Find(&user)
 	if result.RowsAffected == 0 {
 		return false
 	}
@@ -47,7 +47,7 @@ func CreateUser(username string, password string) (*cmd.User, error) {
 
 func FindUserById(id int64) (user *cmd.User, err error) {
 
-	result := db.Where("id = ?", id).Find(&user)
+	result := db.Select("id,username,sex,phoneNumber,email,address,emergencyContact").Where("id = ?", id).Find(&user)
 	if result.RowsAffected == 0 {
 		return user, result.Error
 	}

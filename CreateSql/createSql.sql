@@ -4,8 +4,8 @@ create table comments
 (
     id                bigint auto_increment
         primary key,
-    context           varchar(500)     null,
-    en_context        varchar(500)     null,
+    context           varchar(3000)     null,
+    en_context        varchar(3000)     null,
     old_score         int              null,
     product_id        bigint           null,
     reference_time    bigint default 0 not null,
@@ -41,5 +41,6 @@ create table search(
     id bigint auto_increment primary key ,
     user_id bigint ,
     `key` varchar(100),
-    create_time bigint
+    create_time bigint,
+    update_time bigint
 );

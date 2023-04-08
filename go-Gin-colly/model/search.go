@@ -10,7 +10,7 @@ func GetSearchByClaimsId(cl *cmd.Claims) *[]cmd.Search {
 	var search []cmd.Search
 	id := cl.Id
 
-	db.Select("`key`").Where("user_id = ?", id).Find(&search)
+	db.Select("`key`,create_time").Where("user_id = ?", id).Find(&search)
 
 	return &search
 }
@@ -22,9 +22,9 @@ func SetSearch(key string, id int64) error {
 		CreateTime: time.Now().Unix(),
 	}
 
-	result := db.Where("user_id = ? and `key` = ?", id, key).Find(&cmd.Search{})
+	result := db.Where("user_id = ? and `key` = ?", id, key).Find(&search)
 	if result.RowsAffected != 0 {
-		return nil
+		return UpdateSearch(key, id, &search)
 	}
 
 	result = db.Create(&search)
@@ -32,6 +32,14 @@ func SetSearch(key string, id int64) error {
 	if result.RowsAffected == 0 {
 		return fmt.Errorf("error : No search record")
 	}
+
+	return nil
+}
+
+func UpdateSearch(key string, id int64, search *cmd.Search) error {
+	search.UpdateTime = time.Now().Unix()
+
+	//result := db.Model()
 
 	return nil
 }

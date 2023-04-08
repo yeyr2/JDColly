@@ -2,7 +2,6 @@ reptile.go
 gin.log
 
 WEB
-test/jobrunner
 test
 .idea
 logs

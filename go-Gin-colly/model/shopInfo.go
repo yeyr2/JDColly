@@ -5,7 +5,7 @@ import (
 )
 
 func GetShopInfoByKey(key string, hots *[]*cmd.Hot) {
-	db.Where("`key` = ?", key).Find(hots)
+	db.Where("`key` = ?", key).Order("id ASC").Find(hots)
 }
 
 func AddShopInfo(hots *[]*cmd.Hot, key string) {

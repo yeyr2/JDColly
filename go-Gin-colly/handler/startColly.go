@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"reptile-test-go/cmd"
@@ -18,7 +17,7 @@ func StartColly(con *gin.Context) {
 	token := con.Query("token")
 	logic.Trim(&token)
 	cl, err := logic.ParseToken(token)
-	fmt.Println("token:", token)
+
 	if err != nil {
 		con.JSON(http.StatusOK, cmd.Response{
 			StatusCode: 1,

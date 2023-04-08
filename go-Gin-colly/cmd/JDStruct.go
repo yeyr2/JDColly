@@ -4,9 +4,9 @@ import "github.com/dgrijalva/jwt-go"
 
 // Claims Claim是一些实体（通常指的用户）的状态和额外的元数据
 type Claims struct {
-	Id       int64  `json:"id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Id       int64  `json:"id,omitempty"`
+	Username string `json:"username,omitempty"`
+	Password string `json:"password,omitempty"`
 	jwt.StandardClaims
 }
 
@@ -19,13 +19,14 @@ type Response struct {
 type Search struct {
 	Key        string `json:"key" gorm:"column:key"`
 	Id         int64  `gorm:"column:user_id;<-"`
-	CreateTime int64  `gorm:"column:create_time"`
+	CreateTime int64  `json:"create_time" gorm:"column:create_time"`
+	UpdateTime int64  `json:"update_time" gorm:"column:update_time"`
 }
 
 type User struct {
 	Id               int64  `json:"id,omitempty" gorm:"column:id"`
 	Username         string `json:"username,omitempty" gorm:"column:username"`
-	Password         string `json:"password,omitempty" gorm:"column:password;<-"`
+	Password         string `json:"password,omitempty" gorm:"column:password;<-:true;->:false"`
 	Sex              string `json:"sex,omitempty" gorm:"column:sex"`
 	PhoneNumber      string `json:"phoneNumber,omitempty" gorm:"column:phone_number"`
 	Email            string `json:"email,omitempty" gorm:"column:email"`
