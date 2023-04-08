@@ -66,7 +66,7 @@ func main() {
 
 func initRouter(r *gin.Engine) {
 	r.Static("/images", "./images") //图片
-	r.Static("/wordcloud", "../pyrPC/images")
+	r.Static("/wordcloud", "./../pyRpc/images")
 
 	ans := r.Group("/new")
 
