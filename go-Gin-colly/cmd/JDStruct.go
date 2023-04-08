@@ -25,8 +25,9 @@ type Search struct {
 
 type User struct {
 	Id               int64  `json:"id,omitempty" gorm:"column:id"`
+	Nickname         string `json:"nickname,omitempty" gorm:"column:nickname"`
 	Username         string `json:"username,omitempty" gorm:"column:username"`
-	Password         string `json:"password,omitempty" gorm:"column:password;<-:true;->:false"`
+	Password         string `json:"password,omitempty" gorm:"column:password"`
 	Sex              string `json:"sex,omitempty" gorm:"column:sex"`
 	PhoneNumber      string `json:"phoneNumber,omitempty" gorm:"column:phone_number"`
 	Email            string `json:"email,omitempty" gorm:"column:email"`
@@ -51,6 +52,8 @@ type AnalyzeComment struct {
 }
 
 type Interval struct {
+	Start      int    `json:"start"`
+	End        int    `json:"end"`
 	Interval   int    `json:"interval"`    // 区间分数(占比)
 	ScoreRange string `json:"score_range"` // 区间(例如:1 : [0.0,2.0) )
 }

@@ -37,7 +37,8 @@ def word_cloud(text_str, productId):
     else:
         font_path = font_path_ubuntu  # ubuntu
 
-    stopwords = set(map(str.strip, open('./stopwords/cn_stopwords.txt').readlines(), open("./stopwords/baidu_stopwords.txt")))
+    stopwords = set(map(str.strip, open('./stopwords/cn_stopwords.txt').readlines(),
+                        open("./stopwords/baidu_stopwords.txt").readlines()))
     wc = WordCloud(background_color="#0C1853",  # 设置背景颜色
                    max_words=2000,  # 词云显示的最大词数
                    height=400,  # 图片高度
@@ -55,7 +56,7 @@ def word_cloud(text_str, productId):
     else:
         print(f"Folder {folder_name} already exists.")
     paths = "img" + productId + ".jpg"
-    wc.to_file("./images/"+paths)
+    wc.to_file("./images/" + paths)
 
     # 显示图像
     # plt.imshow(wc, interpolation='bilinear')
@@ -68,5 +69,5 @@ def word_cloud(text_str, productId):
 if __name__ == '__main__':
     # file = open('./wenzi/tt2', encoding='utf8').read()
     file = ["早上好", "下午好下午打", "晚上好"]
-    string = str(split_text(text=file))
-    path = word_cloud(string,12)
+    string = split_text(text=file)
+    path = word_cloud(string, "12")

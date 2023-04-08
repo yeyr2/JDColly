@@ -26,14 +26,15 @@ create table infoColly
 );
 
 create table user(
-    id bigint auto_increment primary key ,
-    username varchar(50) not null default '用户01',
-    password varchar(100) not null,
-    sex varchar(2) not null default '未知',
-    phone_number varchar(20)  null default '无',
-    email varchar(30)  null default '无',
-    address varchar(100) null default '无',
-    emergency_contact varchar(20) default '无'
+    id                  bigint auto_increment primary key ,
+    nickname            varchar(100) not null ,
+    username            varchar(50) not null,
+    password            varchar(100) not null,
+    sex                 varchar(2) not null default '未知',
+    phone_number        varchar(20)  null default '无',
+    email               varchar(30)  null default '无',
+    address             varchar(100) null default '无',
+    emergency_contact   varchar(20) default '无'
 #     login int default 0 check ( login in (0,1))
 );
 
@@ -44,3 +45,6 @@ create table search(
     create_time bigint,
     update_time bigint
 );
+
+update user set sex = '男', phone_number = '123',email = '1234124@gmail.com',
+                address = '翻斗大街翻斗花园二号楼1001室', emergency_contact = '1145141919810' where id = 2;

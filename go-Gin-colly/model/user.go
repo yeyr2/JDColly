@@ -5,6 +5,8 @@ import (
 	"reptile-test-go/cmd"
 )
 
+//username = phone_number
+
 func CheckLogin(username string, password string) (*cmd.User, error) {
 	var user cmd.User
 
@@ -29,11 +31,19 @@ func CheckUserExist(username string) bool {
 }
 
 func CreateUser(username string, password string) (*cmd.User, error) {
+	var nickname string
+	length := len(username)
+	if length > 4 {
+		nickname = "用户" + username[length-4:]
+	} else {
+		nickname = "用户" + username
+	}
 	user := cmd.User{
 		Username:    username,
+		Nickname:    nickname,
 		Password:    password,
 		Sex:         "未知",
-		PhoneNumber: "",
+		PhoneNumber: username,
 		Email:       "",
 	}
 
@@ -47,9 +57,17 @@ func CreateUser(username string, password string) (*cmd.User, error) {
 
 func FindUserById(id int64) (user *cmd.User, err error) {
 
-	result := db.Select("id,username,sex,phone_number,email,address,emergency_contact").Where("id = ?", id).Find(&user)
+	result := db.Select("id,username,nickname,sex,phone_number,email,address,emergency_contact").Where("id = ?", id).Find(&user)
 	if result.RowsAffected == 0 {
-		return user, result.Error
+		return user, fmt.Errorf("the user cannot be found")
 	}
 	return user, nil
+}
+
+func ModifyUser(user *cmd.User, id int64) error {
+	result := db.Where("id = ?", id).Updates(&user)
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("the user cannot be found")
+	}
+	return nil
 }

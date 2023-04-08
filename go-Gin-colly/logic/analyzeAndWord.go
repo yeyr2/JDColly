@@ -53,6 +53,8 @@ func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bo
 	(*analyze).Interval = make([]cmd.Interval, 5)
 	for i := 0; i < 5; i++ {
 		(*analyze).Interval[i].ScoreRange = fmt.Sprintf("[%d~%d]", i*20, 20*(i+1))
+		(*analyze).Interval[i].Start = i * 20
+		(*analyze).Interval[i].End = (i + 1) * 20
 		if count[i] != 0 {
 			sum[i] = sum[i] * 50
 			sums += int(sum[i])

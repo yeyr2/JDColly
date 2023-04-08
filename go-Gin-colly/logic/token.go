@@ -13,7 +13,7 @@ var jwtSecret = []byte("iyeyr2.Token")
 func GenerateToken(id int64, username, password string) (string, error) {
 	//设置token有效时间
 	nowTime := time.Now()
-	expireTime := nowTime.Add(time.Hour)
+	expireTime := nowTime.Add(6 * time.Hour)
 
 	claims := cmd.Claims{
 		Id:       id,

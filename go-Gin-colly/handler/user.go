@@ -9,6 +9,7 @@ import (
 	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
 	"reptile-test-go/model"
+	"strings"
 )
 
 type UserResponse struct {
@@ -18,6 +19,8 @@ type UserResponse struct {
 	Token      string `json:"token,omitempty"`
 	Value      any    `json:"value,omitempty"`
 }
+
+// 登录username为手机号
 
 func Login(c *gin.Context) {
 	username := c.PostForm("username")
@@ -97,5 +100,84 @@ func Userinfo(c *gin.Context) {
 	c.JSON(http.StatusOK, UserResponse{
 		StatusCode: 0,
 		Value:      user,
+	})
+}
+
+func ModifyUserInformation(c *gin.Context) {
+	nickname := strings.TrimSpace(c.PostForm("nickname"))
+	username := strings.TrimSpace(c.PostForm("username"))
+	password := strings.TrimSpace(fmt.Sprintf("%x", sha256.Sum256([]byte(c.PostForm("password")))))
+	sex := strings.TrimSpace(c.PostForm("sex"))
+	phoneNumber := strings.TrimSpace(c.PostForm("phoneNumber"))
+	email := strings.TrimSpace(c.PostForm("email"))
+	address := strings.TrimSpace(c.PostForm("address"))
+	emergencyContact := strings.TrimSpace(c.PostForm("emergencyContact"))
+	token := c.PostForm("token")
+	logic.Trim(&token)
+
+	cl, err := logic.ParseToken(token)
+	if err != nil {
+		c.JSON(http.StatusOK, cmd.Response{
+			StatusCode: 2,
+			StatusMsg:  err.Error(),
+		})
+		return
+	}
+
+	user, err := sql.FindUserById(cl.Id)
+	if err != nil {
+		c.JSON(http.StatusOK, cmd.Response{
+			StatusCode: 1,
+			StatusMsg:  err.Error(),
+		})
+		return
+	}
+
+	id := user.Id
+	user.Id = 0
+
+	if nickname != "" {
+		user.Nickname = nickname
+	}
+
+	if username != "" {
+		user.Username = username
+	}
+
+	if password != "" {
+		user.Password = password
+	}
+
+	if sex != "" {
+		user.Sex = sex
+	}
+
+	if phoneNumber != "" {
+		user.PhoneNumber = phoneNumber
+	}
+
+	if email != "" {
+		user.Email = email
+	}
+
+	if address != "" {
+		user.Address = address
+	}
+
+	if emergencyContact != "" {
+		user.EmergencyContact = emergencyContact
+	}
+
+	err = logic.ModifyUser(user, id)
+	if err != nil {
+		c.JSON(http.StatusOK, cmd.Response{
+			StatusCode: 1,
+			StatusMsg:  err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, cmd.Response{
+		StatusCode: 0,
 	})
 }
