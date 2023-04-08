@@ -10,7 +10,7 @@ func GetSearchByClaimsId(cl *cmd.Claims) *[]cmd.Search {
 	var search []cmd.Search
 	id := cl.Id
 
-	db.Select("`key`,create_time").Where("user_id = ?", id).Find(&search)
+	db.Select("`key`,create_time").Where("user_id = ?", id).Limit(15).Find(&search)
 
 	return &search
 }
