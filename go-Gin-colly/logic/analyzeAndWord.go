@@ -15,8 +15,8 @@ type kv struct {
 	Value int
 }
 
-func GetCommentBySql(id string, lastTime int64) *[]cmd.Comments {
-	comments := sql.GetComments(id, lastTime)
+func GetCommentBySql(id string, startTime, lastTime int64) *[]cmd.Comments {
+	comments := sql.GetComments(id, startTime, lastTime)
 
 	return comments
 }

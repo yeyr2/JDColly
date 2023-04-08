@@ -11,6 +11,7 @@ import (
 func GetComment(c *gin.Context) {
 	id := c.Query("id")
 	isColly, _ := strconv.Atoi(c.Query("isColly"))
+	startTime, _ := strconv.ParseInt(c.Query("startTime"), 0, 64)
 	lastTime, _ := strconv.ParseInt(c.Query("lastTime"), 0, 64)
 	//token, _ := c.Cookie("token")
 	token := c.Query("token")
@@ -30,12 +31,12 @@ func GetComment(c *gin.Context) {
 
 	if isColly != 1 {
 		// 获取评论
-		logic.GetCommentById(id, lastTime, &jdComment)
+		logic.GetCommentById(id, startTime, lastTime, &jdComment)
 		//fmt.Println(len(jdComment.Comments))
 		comments = &jdComment.Comments
 	} else {
 		// 从数据库中获取数据
-		comments = logic.GetCommentBySql(id, lastTime)
+		comments = logic.GetCommentBySql(id, startTime, lastTime)
 	}
 
 	// 分析获取的评价(总评价,评价区间)

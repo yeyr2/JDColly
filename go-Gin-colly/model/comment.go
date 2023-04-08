@@ -58,10 +58,10 @@ func SaveComment(comments cmd.JDComment, lastTime int64) {
 	}
 }
 
-func GetComments(id string, lastTime int64) *[]cmd.Comments {
+func GetComments(id string, startTime, lastTime int64) *[]cmd.Comments {
 	sqlComments := make([]sqlComment, 0)
 
-	db.Where("reference_time > ? and product_id = ?", lastTime, id).Find(&sqlComments)
+	db.Where("reference_time > ? and reference_time < ? and product_id = ?", startTime, lastTime, id).Find(&sqlComments)
 
 	comments := make([]cmd.Comments, len(sqlComments))
 	for i, comment := range sqlComments {

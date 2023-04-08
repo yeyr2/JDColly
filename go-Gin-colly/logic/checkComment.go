@@ -15,9 +15,9 @@ import (
 var proxys = []string{"socks5://127.0.0.1:1080", "socks5://127.0.0.1:1081"}
 var productToLastTime = make(map[int64]int64)
 
-func GetCommentById(id string, lastTime int64, comment *cmd.JDComment) bool {
+func GetCommentById(id string, startTime, lastTime int64, comment *cmd.JDComment) bool {
 
-	GetTotalPages(id, comment, lastTime)
+	GetTotalPages(id, comment, startTime, lastTime)
 	time.Sleep(1 * time.Second)
 
 	pages := comment.MaxPage
@@ -30,7 +30,7 @@ func GetCommentById(id string, lastTime int64, comment *cmd.JDComment) bool {
 		pages = 30
 	}
 
-	err := SendHttp(id, comment, pages, lastTime)
+	err := SendHttp(id, comment, pages, startTime, lastTime)
 	if err != nil {
 		log.Println("err:", err)
 		return false
@@ -39,7 +39,7 @@ func GetCommentById(id string, lastTime int64, comment *cmd.JDComment) bool {
 	return true
 }
 
-func SendHttp(productId string, comment *cmd.JDComment, pages int, lastTime int64) (err error) {
+func SendHttp(productId string, comment *cmd.JDComment, pages int, startTime, lastTime int64) (err error) {
 	chans := make(chan *[]cmd.Comments, pages-1)
 
 	c := colly.NewCollector(
@@ -68,7 +68,7 @@ func SendHttp(productId string, comment *cmd.JDComment, pages int, lastTime int6
 
 	// Print the response
 	c.OnResponse(func(r *colly.Response) {
-		go JsonBody(&r.Body, lastTime, chans)
+		go JsonBody(&r.Body, startTime, lastTime, chans)
 	})
 
 	for i := 1; i < pages; i++ {
@@ -95,7 +95,7 @@ func GetCommentUrl(productId string, page string) string {
 	return "https://club.jd.com/comment/productPageComments.action?productId=" + productId + "&score=0&sortType=5&page=" + page + "&pageSize=10&isShadowSku=0&fold=1"
 }
 
-func JsonBody(body *[]byte, lastTime int64, chans chan *[]cmd.Comments) {
+func JsonBody(body *[]byte, startTime, lastTime int64, chans chan *[]cmd.Comments) {
 	var tmp cmd.JDComment
 	if len(*body) == 0 {
 		return
@@ -109,12 +109,12 @@ func JsonBody(body *[]byte, lastTime int64, chans chan *[]cmd.Comments) {
 
 	translation(&tmp)
 	go sql.SaveComment(tmp, productToLastTime[tmp.ProductCommentSummary.ProductID])
-	DeleteCommentByLastTime(&tmp.Comments, lastTime)
+	DeleteCommentByLastTime(&tmp.Comments, startTime, lastTime)
 
 	chans <- &tmp.Comments
 }
 
-func GetTotalPages(id string, comment *cmd.JDComment, lastTime int64) {
+func GetTotalPages(id string, comment *cmd.JDComment, startTime, lastTime int64) {
 	urls := GetCommentUrl(id, "0")
 
 	c := colly.NewCollector(
@@ -153,14 +153,14 @@ func GetTotalPages(id string, comment *cmd.JDComment, lastTime int64) {
 		go sql.SaveComment(*comment, sqlLastTime)
 		productToLastTime[comment.ProductCommentSummary.ProductID] = sqlLastTime
 
-		DeleteCommentByLastTime(&comment.Comments, lastTime)
+		DeleteCommentByLastTime(&comment.Comments, startTime, lastTime)
 	})
 	c.Visit(urls)
 
 	c.Wait()
 }
 
-func DeleteCommentByLastTime(comments *[]cmd.Comments, lastTime int64) {
+func DeleteCommentByLastTime(comments *[]cmd.Comments, startTime, lastTime int64) {
 	length := len(*comments)
 	for i := 0; i < length; i++ {
 		t, err := time.Parse("2006-01-02 15:04:05", (*comments)[i].ReferenceTime)
@@ -168,7 +168,7 @@ func DeleteCommentByLastTime(comments *[]cmd.Comments, lastTime int64) {
 			log.Println(err)
 			continue
 		}
-		if t.Unix() < lastTime {
+		if !(t.Unix() < lastTime && t.Unix() > startTime) {
 			*comments = append((*comments)[:i], (*comments)[i+1:]...)
 			i--
 			length--
