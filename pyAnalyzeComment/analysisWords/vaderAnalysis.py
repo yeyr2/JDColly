@@ -12,16 +12,16 @@ def analysis_comment(request):
     lists = list(request)
     for text in lists:
         s = SnowNLP(text).sentiments
-        if s > 0.8:
+        if s < 0.2:
             total[0] += s
             count[0] += 1
-        elif s > 0.6:
+        elif s < 0.4:
             total[1] += s
             count[1] += 1
-        elif s > 0.4:
+        elif s < 0.6:
             total[2] += s
             count[2] += 1
-        elif s > 0.2:
+        elif s < 0.8:
             total[3] += s
             count[3] += 1
         else:
