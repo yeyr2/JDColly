@@ -71,9 +71,9 @@ func Trim(token *string) {
 		return
 	}
 	if (*token)[0] == '"' {
-		strings.TrimLeft(*token, "\"")
+		*token = strings.TrimLeft(*token, "\"")
 	}
-	if (*token)[length-1] == '"' {
-		strings.TrimRight(*token, "\"")
+	if (*token)[length-2] == '"' {
+		*token = strings.TrimRight(*token, "\"")
 	}
 }
