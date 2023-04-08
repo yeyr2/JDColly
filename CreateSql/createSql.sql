@@ -8,7 +8,7 @@ create table comments
     en_context        varchar(3000)     null,
     old_score         int              null,
     product_id        bigint           null,
-    reference_time    bigint default 0 not null,
+    reference_time    bigint default 0 null,
     useful_vote_count int              null
 );
 

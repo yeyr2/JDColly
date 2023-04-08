@@ -108,7 +108,7 @@ func JsonBody(body *[]byte, startTime, lastTime int64, chans chan *[]cmd.Comment
 	}
 
 	translation(&tmp)
-	go sql.SaveComment(tmp, productToLastTime[tmp.ProductCommentSummary.ProductID])
+	sql.SaveComment(tmp, productToLastTime[tmp.ProductCommentSummary.ProductID])
 	DeleteCommentByLastTime(&tmp.Comments, startTime, lastTime)
 
 	chans <- &tmp.Comments
@@ -150,7 +150,7 @@ func GetTotalPages(id string, comment *cmd.JDComment, startTime, lastTime int64)
 
 		translation(comment)
 		sqlLastTime := sql.CommentsLastTime(comment.ProductCommentSummary.ProductID)
-		go sql.SaveComment(*comment, sqlLastTime)
+		sql.SaveComment(*comment, sqlLastTime)
 		productToLastTime[comment.ProductCommentSummary.ProductID] = sqlLastTime
 
 		DeleteCommentByLastTime(&comment.Comments, startTime, lastTime)
