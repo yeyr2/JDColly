@@ -11,6 +11,7 @@ import (
 func SearchInfo(c *gin.Context) {
 	//token, _ := c.Cookie("token")
 	token := c.Query("token")
+	logic.Trim(&token)
 
 	cl, err := logic.ParseToken(token)
 	if err != nil {

@@ -15,6 +15,7 @@ func StartColly(con *gin.Context) {
 	isColly, _ := strconv.Atoi(con.Query("isColly"))
 	//token, _ := con.Cookie("token")
 	token := con.Query("token")
+	logic.Trim(&token)
 	cl, err := logic.ParseToken(token)
 
 	if err != nil {

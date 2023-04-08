@@ -64,3 +64,16 @@ func Substring(token string, size int) string {
 
 	return str.String()
 }
+
+func Trim(token *string) {
+	length := len(*token)
+	if length == 0 {
+		return
+	}
+	if (*token)[0] == '"' {
+		strings.TrimLeft(*token, "\"")
+	}
+	if (*token)[length-1] == '"' {
+		strings.TrimRight(*token, "\"")
+	}
+}

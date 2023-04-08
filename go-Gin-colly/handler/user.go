@@ -74,6 +74,7 @@ func Register(c *gin.Context) {
 func Userinfo(c *gin.Context) {
 	//token, _ := c.Cookie("token")
 	token := c.Query("token")
+	logic.Trim(&token)
 
 	claims, err := logic.ParseToken(token)
 	if err != nil {
