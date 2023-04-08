@@ -2,7 +2,6 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
@@ -12,7 +11,6 @@ import (
 func SearchInfo(c *gin.Context) {
 	//token, _ := c.Cookie("token")
 	token := c.Query("token")
-	log.Println(token)
 
 	cl, err := logic.ParseToken(token)
 	if err != nil {
