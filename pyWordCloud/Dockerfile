@@ -2,7 +2,7 @@
 FROM python:3.9
 
 # 设置工作目录
-WORKDIR /pyRpc
+WORKDIR /pyWordCloud
 
 # 复制 Python 程序代码到镜像中
 COPY . .

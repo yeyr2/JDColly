@@ -38,9 +38,10 @@ func GetComment(c *gin.Context) {
 		// 从数据库中获取数据
 		comments = logic.GetCommentBySql(id, startTime, lastTime)
 	}
+	analyze.Count = int32(len(*comments))
 
 	// 分析获取的评价(总评价,评价区间)
-	flag := logic.AnalyzeGetComments(comments, &analyze)
+	flag := logic.AnalyzeGetComments(comments, &analyze, "Chinese NLP")
 	if !flag {
 		c.JSON(http.StatusOK, cmd.Response{
 			StatusCode: 1,

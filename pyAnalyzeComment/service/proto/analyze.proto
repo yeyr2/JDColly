@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package analyze;
+option go_package = "goGRPC/AnalysisByNLP";
+
+message rpcComment {
+  repeated string Content = 1;
+  string productId = 2;
+}
+
+message AnalyzeComment {
+  int32 Fraction = 1;
+  repeated int32 Interval = 2;
+}
+
+service Greeter {
+  rpc AnalysisCommentsByNLP (rpcComment) returns (AnalyzeComment) {}
+}

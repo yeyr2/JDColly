@@ -8,7 +8,7 @@ import (
 	WordsCloud2 "reptile-test-go/goGRPC/WordsCloud"
 )
 
-var client WordsCloud2.GreeterClient
+var wordCloudClient WordsCloud2.GreeterClient
 
 func init() {
 	// 创建gRPC连接
@@ -18,13 +18,13 @@ func init() {
 	}
 
 	// 创建Greeter客户端
-	client = WordsCloud2.NewGreeterClient(conn)
+	wordCloudClient = WordsCloud2.NewGreeterClient(conn)
 }
 
 func wordCloudRpc(comment *[]cmd.Comments, id string) string {
 	request := cmdFormRPC(comment)
 	request.ProductId = id
-	response, err := client.WordCloudAnalysis(context.Background(), request)
+	response, err := wordCloudClient.WordCloudAnalysis(context.Background(), request)
 	if err != nil {
 		log.Fatalf("Failed to call SayHello: %v", err)
 	}

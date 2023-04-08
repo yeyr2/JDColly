@@ -46,9 +46,10 @@ type Hot struct {
 }
 
 type AnalyzeComment struct {
-	Fraction    int        `json:"fraction"`     //总评分数
-	Interval    []Interval `json:"interval"`     //区间分数(5段)
-	AnalyzeWord string     `json:"analyze_word"` //评论词云
+	Fraction    int32   `json:"fraction"`     //总评分数
+	Interval    []int32 `json:"interval"`     //区间分数(5段)
+	AnalyzeWord string  `json:"analyze_word"` //评论词云
+	Count       int32   `json:"count"`        //评论数
 }
 
 type Interval struct {

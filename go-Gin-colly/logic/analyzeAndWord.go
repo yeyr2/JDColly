@@ -1,7 +1,6 @@
 package logic
 
 import (
-	"fmt"
 	"github.com/jonreiter/govader"
 	"math"
 	"reptile-test-go/cmd"
@@ -20,11 +19,33 @@ func GetCommentBySql(id string, startTime, lastTime int64) *[]cmd.Comments {
 
 	return comments
 }
-
-func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bool {
+func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, atype string) bool {
 	if len(*comment) == 0 {
 		return false
 	}
+
+	if atype == "Chinese NLP" {
+		return AnalyzeGetCommentsNLP(comment, analyze)
+	}
+	if atype == "JieBa" {
+		return AnalyzeGetCommentsJieBa(comment, analyze)
+	}
+	return false
+}
+
+func WordCloudAnalysis(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, id string) {
+	if len(*comment) == 0 {
+		analyze.AnalyzeWord = ""
+		return
+	}
+
+	response := wordCloudRpc(comment, id)
+	response = "http://" + config.Host + "/wordcloud/" + response
+	analyze.AnalyzeWord = response
+	//fmt.Println(response)
+}
+
+func AnalyzeGetCommentsJieBa(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bool {
 	var sum [5]float64
 	var count [5]int
 	counts, sums := 0, 0
@@ -50,11 +71,7 @@ func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bo
 		}
 	}
 
-	(*analyze).Interval = make([]cmd.Interval, 5)
 	for i := 0; i < 5; i++ {
-		(*analyze).Interval[i].ScoreRange = fmt.Sprintf("[%d~%d]", i*20, 20*(i+1))
-		(*analyze).Interval[i].Start = i * 20
-		(*analyze).Interval[i].End = (i + 1) * 20
 		if count[i] != 0 {
 			sum[i] = sum[i] * 50
 			sums += int(sum[i])
@@ -62,22 +79,22 @@ func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bo
 				sum[i] += 1
 			}
 			counts += count[i]
-			(*analyze).Interval[i].Interval = count[i]
+			(*analyze).Interval[i] = int32(count[i])
 		}
 	}
-	(*analyze).Fraction = sums / counts
+	(*analyze).Fraction = int32(sums / counts)
 
 	return true
 }
 
-func WordCloudAnalysis(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, id string) {
+func AnalyzeGetCommentsNLP(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bool {
 	if len(*comment) == 0 {
 		analyze.AnalyzeWord = ""
-		return
+		return false
 	}
 
-	response := wordCloudRpc(comment, id)
-	response = "http://" + config.Host + "/wordcloud/" + response
-	analyze.AnalyzeWord = response
-	//fmt.Println(response)
+	fraction, interval := AnalysisByNLPRpc(comment)
+	analyze.Interval = interval
+	analyze.Fraction = fraction
+	return true
 }
