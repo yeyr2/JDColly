@@ -29,8 +29,7 @@ func translation(comments *cmd.JDComment) {
 		length = len(com)
 	}
 
-	for i := 0; i < len((*comments).Comments); i++ {
-		//fmt.Println(i, comments.Comments[i].Content, com[i])
+	for i := 0; i < length; i++ {
 		(*comments).Comments[i].EnContent = com[i]
 	}
 }

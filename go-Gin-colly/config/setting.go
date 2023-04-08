@@ -4,7 +4,7 @@ package config
 
 const Host = "www.iyeyr2.top"
 const User = "root"
-const Pass = ""
+const Pass = "2042054014"
 
 //var Host = "127.0.0.1:9090" // 获取ip地址
 //func GetOutBoundIP() (ip string, err error) {
