@@ -19,18 +19,18 @@ func StartColly(con *gin.Context) {
 	logic.Trim(&token)
 	cl, err := logic.ParseToken(token)
 
-	if cl.Id != id {
-		con.JSON(http.StatusOK, cmd.Response{
-			StatusCode: 1,
-			StatusMsg:  "用户信息错误",
-		})
-		return
-	}
-
 	if err != nil {
 		con.JSON(http.StatusOK, cmd.Response{
 			StatusCode: 1,
 			StatusMsg:  err.Error(),
+		})
+		return
+	}
+
+	if cl.Id != id {
+		con.JSON(http.StatusOK, cmd.Response{
+			StatusCode: 1,
+			StatusMsg:  "用户信息错误",
 		})
 		return
 	}

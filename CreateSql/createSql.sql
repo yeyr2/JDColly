@@ -18,9 +18,9 @@ create table infoColly
         primary key,
     img        varchar(100) null,
     price      varchar(20)  null,
-    name       varchar(100) null,
+    name       varchar(500) null,
     product_id varchar(100) null,
-    title      varchar(100) null,
+    title      varchar(500) null,
     url        varchar(100) null,
     `key`      varchar(100) null
 );

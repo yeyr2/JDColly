@@ -21,7 +21,7 @@ type Search struct {
 	Id         int64  `json:"id,omitempty" gorm:"column:user_id;<-"`
 	CreateTime int64  `json:"create_time,omitempty" gorm:"column:create_time"`
 	UpdateTime int64  `json:"update_time,omitempty" gorm:"column:update_time"`
-	Time       string `json:"time,omitempty"`
+	Time       string `json:"time,omitempty" gorm:"-"`
 }
 
 type User struct {
