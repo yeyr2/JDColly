@@ -10,7 +10,7 @@ func GetSearchByClaimsId(cl *cmd.Claims) *[]cmd.Search {
 	var search []cmd.Search
 	id := cl.Id
 
-	db.Select("`key`,update_time").Where("user_id = ?", id).Limit(15).Find(&search)
+	db.Select("`key`,update_time").Where("user_id = ?", id).Limit(15).Order("update_time DESC").Find(&search)
 
 	for i := range search {
 		search[i].Time = time.Unix(search[i].UpdateTime, 0).Format("2006-01-02 15:04:05")
