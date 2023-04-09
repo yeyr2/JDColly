@@ -18,9 +18,10 @@ type Response struct {
 
 type Search struct {
 	Key        string `json:"key" gorm:"column:key"`
-	Id         int64  `gorm:"column:user_id;<-"`
-	CreateTime int64  `json:"create_time" gorm:"column:create_time"`
-	UpdateTime int64  `json:"update_time" gorm:"column:update_time"`
+	Id         int64  `json:"id,omitempty" gorm:"column:user_id;<-"`
+	CreateTime int64  `json:"create_time,omitempty" gorm:"column:create_time"`
+	UpdateTime int64  `json:"update_time,omitempty" gorm:"column:update_time"`
+	Time       string `json:"time,omitempty"`
 }
 
 type User struct {

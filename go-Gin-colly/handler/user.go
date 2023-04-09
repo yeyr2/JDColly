@@ -9,6 +9,7 @@ import (
 	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
 	"reptile-test-go/model"
+	"strconv"
 	"strings"
 )
 
@@ -76,6 +77,7 @@ func Register(c *gin.Context) {
 
 func Userinfo(c *gin.Context) {
 	//token, _ := c.Cookie("token")
+	id, _ := strconv.ParseInt(c.Query("id"), 0, 64)
 	token := c.Query("token")
 	logic.Trim(&token)
 
@@ -84,6 +86,14 @@ func Userinfo(c *gin.Context) {
 		c.JSON(http.StatusOK, cmd.Response{
 			StatusCode: 2,
 			StatusMsg:  err.Error(),
+		})
+		return
+	}
+
+	if claims.Id != id {
+		c.JSON(http.StatusOK, cmd.Response{
+			StatusCode: 1,
+			StatusMsg:  "用户信息错误",
 		})
 		return
 	}
@@ -104,6 +114,7 @@ func Userinfo(c *gin.Context) {
 }
 
 func ModifyUserInformation(c *gin.Context) {
+	id, _ := strconv.ParseInt(c.Query("id"), 0, 64)
 	nickname := strings.TrimSpace(c.PostForm("nickname"))
 	username := strings.TrimSpace(c.PostForm("username"))
 	password := strings.TrimSpace(fmt.Sprintf("%x", sha256.Sum256([]byte(c.PostForm("password")))))
@@ -124,6 +135,14 @@ func ModifyUserInformation(c *gin.Context) {
 		return
 	}
 
+	if cl.Id != id {
+		c.JSON(http.StatusOK, cmd.Response{
+			StatusCode: 1,
+			StatusMsg:  "用户信息错误",
+		})
+		return
+	}
+
 	user, err := sql.FindUserById(cl.Id)
 	if err != nil {
 		c.JSON(http.StatusOK, cmd.Response{
@@ -133,7 +152,6 @@ func ModifyUserInformation(c *gin.Context) {
 		return
 	}
 
-	id := user.Id
 	user.Id = 0
 
 	if nickname != "" {

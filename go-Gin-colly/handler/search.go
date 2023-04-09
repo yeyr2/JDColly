@@ -6,10 +6,12 @@ import (
 	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
 	"reptile-test-go/model"
+	"strconv"
 )
 
 func SearchInfo(c *gin.Context) {
 	//token, _ := c.Cookie("token")
+	id, _ := strconv.ParseInt(c.Query("id"), 0, 64)
 	token := c.Query("token")
 	logic.Trim(&token)
 
@@ -18,6 +20,14 @@ func SearchInfo(c *gin.Context) {
 		c.JSON(http.StatusOK, cmd.Response{
 			StatusCode: 1,
 			StatusMsg:  err.Error(),
+		})
+		return
+	}
+
+	if cl.Id != id {
+		c.JSON(http.StatusOK, cmd.Response{
+			StatusCode: 1,
+			StatusMsg:  "用户信息错误",
 		})
 		return
 	}

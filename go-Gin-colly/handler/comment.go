@@ -6,10 +6,12 @@ import (
 	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
 	"strconv"
+	"strings"
 )
 
 func GetComment(c *gin.Context) {
-	id := c.Query("id")
+	id, _ := strconv.ParseInt(c.Query("id"), 0, 64)
+	productId := c.Query("productId")
 	isColly, _ := strconv.Atoi(c.Query("isColly"))
 	startTime, _ := strconv.ParseInt(c.Query("startTime"), 0, 64)
 	lastTime, _ := strconv.ParseInt(c.Query("lastTime"), 0, 64)
@@ -17,10 +19,27 @@ func GetComment(c *gin.Context) {
 	token := c.Query("token")
 	logic.Trim(&token)
 
-	if _, err := logic.ParseToken(token); err != nil {
+	if strings.TrimSpace(productId) == "" {
+		c.JSON(http.StatusOK, cmd.Response{
+			StatusCode: 1,
+			StatusMsg:  "商品id为空",
+		})
+		return
+	}
+
+	cl, err := logic.ParseToken(token)
+	if err != nil {
 		c.JSON(http.StatusOK, cmd.Response{
 			StatusCode: 1,
 			StatusMsg:  err.Error(),
+		})
+		return
+	}
+
+	if cl.Id != id {
+		c.JSON(http.StatusOK, cmd.Response{
+			StatusCode: 1,
+			StatusMsg:  "用户信息错误",
 		})
 		return
 	}
@@ -31,12 +50,12 @@ func GetComment(c *gin.Context) {
 
 	if isColly != 1 {
 		// 获取评论
-		logic.GetCommentById(id, startTime, lastTime, &jdComment)
+		logic.GetCommentById(productId, startTime, lastTime, &jdComment)
 		//fmt.Println(len(jdComment.Comments))
 		comments = &jdComment.Comments
 	} else {
 		// 从数据库中获取数据
-		comments = logic.GetCommentBySql(id, startTime, lastTime)
+		comments = logic.GetCommentBySql(productId, startTime, lastTime)
 	}
 	analyze.Count = int32(len(*comments))
 
@@ -51,7 +70,7 @@ func GetComment(c *gin.Context) {
 	}
 
 	// 获取词云分析
-	logic.WordCloudAnalysis(comments, &analyze, id)
+	logic.WordCloudAnalysis(comments, &analyze, productId)
 
 	//setHeader(c)
 

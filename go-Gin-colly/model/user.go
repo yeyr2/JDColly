@@ -57,7 +57,7 @@ func CreateUser(username string, password string) (*cmd.User, error) {
 
 func FindUserById(id int64) (user *cmd.User, err error) {
 
-	result := db.Select("id,username,nickname,sex,phone_number,email,address,emergency_contact").Where("id = ?", id).Find(&user)
+	result := db.Select("username,nickname,sex,phone_number,email,address,emergency_contact").Where("id = ?", id).Find(&user)
 	if result.RowsAffected == 0 {
 		return user, fmt.Errorf("the user cannot be found")
 	}
