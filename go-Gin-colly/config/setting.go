@@ -1,7 +1,6 @@
 package config
 
-//const Host = "127.0.0.1:9090"
-
+const LocalHost = "127.0.0.1"
 const Host = "www.iyeyr2.top"
 const User = "root"
 const Pass = ""
