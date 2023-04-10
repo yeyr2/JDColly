@@ -75,7 +75,7 @@ mkdir ../jd_comment/images ../jd_comment/wordsImages ../jd_comment/logs
 
 ### 启动应用程序容器并将其连接到Docker网络
 ```shell
-docker run -d --network jd_comments_network -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/logs -p 9090:9090 -p 50051:50051 -p 50052:50052 yeyr2:go_Gin_Colly ./main 
+docker run -d --network jd_comments_network -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/logs -p 9090:9090 yeyr2:go_Gin_Colly ./main 
 ```
 ```shell
 docker run -d --network jd_comments_network -p 50052:50052 yeyr2:pyAnalyzeComment python service.py
