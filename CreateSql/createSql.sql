@@ -1,5 +1,3 @@
-create database jdColly;
-
 create table comments
 (
     id                bigint auto_increment

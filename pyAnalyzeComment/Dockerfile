@@ -7,7 +7,8 @@ WORKDIR /pyWordCloud
 # 复制 Python 程序代码到镜像中
 COPY . .
 
-RUN  pip3 install snownlp
+RUN  python -m pip install --upgrade pip && \
+     pip3 install snownlp grpcio-tools protobuf
 
 # 暴露端口
 EXPOSE 50052
