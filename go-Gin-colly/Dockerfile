@@ -6,9 +6,6 @@ WORKDIR /JDColly
 # 复制 Go 程序代码到镜像中
 COPY . .
 
-RUN apt-get update &&  \
-    apt-get install -y mysql-client
-
 RUN go mod tidy && \
     go mod download && \
     go build main.go

@@ -75,8 +75,9 @@ mkdir ../jd_comment/images ../jd_comment/wordsImages ../jd_comment/logs
 
 ### 启动应用程序容器并将其连接到Docker网络
 ```shell
-docker run -d --network jd_comments_network -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/logs -p 9090:9090 yeyr2:go_Gin_Colly ./main 
+docker run -d --network jd_comments_network -e DB_HOST=host.docker.internal -e DB_PORT=3306 -e DB_USER=root -e DB_PASSWORD=<password> -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/logs -p 9090:9090 yeyr2:go_Gin_Colly ./main 
 ```
+`<password>`为你的mysql密码
 ```shell
 docker run -d --network jd_comments_network -p 50052:50052 yeyr2:pyAnalyzeComment python service.py
 ```
