@@ -8,7 +8,7 @@ from collections import Counter
 import jieba
 from wordcloud import WordCloud
 
-font_path_ubuntu = "usr/share/fonts/truetype/wqy/wqy-zenhei.ttc"
+font_path_ubuntu = "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc"
 font_path_arch = "/usr/share/fonts/wenquanyi/wqy-zenhei/wqy-zenhei.ttc"
 
 
