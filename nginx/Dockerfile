@@ -22,7 +22,7 @@ RUN tar xvf tengine.tar.gz \
 
 COPY colly.conf /usr/local/nginx/conf/nginx.conf
 
-EXPOSE 80 443 9090 500051 50052
+EXPOSE 80 443
 
 STOPSIGNAL SIGTERM
 

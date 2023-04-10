@@ -26,7 +26,7 @@ RUN  pip3 install wordcloud jieba grpcio-tools protobuf
 # RUN pip3 install -r requirements.txt
 
 # 暴露端口
-EXPOSE 50051 9090 80
+EXPOSE 50051
 
 # 指定 Python 程序运行时的命令
 CMD [ "python", "service.py" ]
