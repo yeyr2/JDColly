@@ -40,8 +40,6 @@ func GetCommentById(id string, startTime, lastTime int64, comment *cmd.JDComment
 }
 
 func SendHttp(productId string, comment *cmd.JDComment, pages int, startTime, lastTime int64) (err error) {
-	chans := make(chan *[]cmd.Comments, pages-1)
-
 	c := colly.NewCollector(
 		colly.AllowURLRevisit(),
 		colly.Async(true),
@@ -68,7 +66,10 @@ func SendHttp(productId string, comment *cmd.JDComment, pages int, startTime, la
 
 	// Print the response
 	c.OnResponse(func(r *colly.Response) {
-		go JsonBody(&r.Body, startTime, lastTime, chans)
+		if r.Body == nil {
+			return
+		}
+		JsonBody(&r.Body, startTime, lastTime, comment)
 	})
 
 	for i := 1; i < pages; i++ {
@@ -82,10 +83,6 @@ func SendHttp(productId string, comment *cmd.JDComment, pages int, startTime, la
 		time.Sleep(1 * time.Second)
 	}
 
-	for i := 1; i < pages; i++ {
-		(*comment).Comments = append((*comment).Comments, *(<-chans)...)
-	}
-
 	c.Wait()
 
 	return nil
@@ -95,7 +92,7 @@ func GetCommentUrl(productId string, page string) string {
 	return "https://club.jd.com/comment/productPageComments.action?productId=" + productId + "&score=0&sortType=5&page=" + page + "&pageSize=10&isShadowSku=0&fold=1"
 }
 
-func JsonBody(body *[]byte, startTime, lastTime int64, chans chan *[]cmd.Comments) {
+func JsonBody(body *[]byte, startTime, lastTime int64, comment *cmd.JDComment) {
 	var tmp cmd.JDComment
 	if len(*body) == 0 {
 		return
@@ -111,7 +108,7 @@ func JsonBody(body *[]byte, startTime, lastTime int64, chans chan *[]cmd.Comment
 	sql.SaveComment(tmp, productToLastTime[tmp.ProductCommentSummary.ProductID])
 	DeleteCommentByLastTime(&tmp.Comments, startTime, lastTime)
 
-	chans <- &tmp.Comments
+	(*comment).Comments = append((*comment).Comments, tmp.Comments...)
 }
 
 func GetTotalPages(id string, comment *cmd.JDComment, startTime, lastTime int64) {

@@ -64,6 +64,9 @@ func Translate(source, sourceLang, targetLang string) (string, error) {
 
 	if len(result) > 0 {
 		inner := result[0]
+		if inner == nil {
+			return "err", errors.New("translated failed or not words")
+		}
 		for _, slice := range inner.([]interface{}) {
 			for _, translatedText := range slice.([]interface{}) {
 				text = append(text, fmt.Sprintf("%v", translatedText))
