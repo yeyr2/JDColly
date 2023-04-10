@@ -1,4 +1,4 @@
-## JDColly
+# JDColly
 
 获取京东评论并进行情感分析得出评论分数与词云图片(ing...)
 
@@ -12,25 +12,44 @@
 >   - python
 >     - 使用wordcloud jieba grpcio-tools protobuf snownlp 外部库
 
-# 构建docker镜像
+> 使用前请修改`go-Gin-colly/config/setting.go`文件
 
+## 构建docker镜像
+
+### 创建一个Docker网络     
+```shell
+docker network create jd_comments_network
+```
+
+### 构建镜像   
 ```shell
 docker build -t yeyr2:go_Gin_Colly ./go-Gin-colly
 docker build -t yeyr2:pyAnalyzeComment ./pyAnalyzeComment
 docker build -t yeyr2:pyWordCloud ./pyWordCloud
 ```
-s
-# 启动
 
+## 启动
+
+### 启动MySQL容器并将其连接到该网络  
 ```shell
-mkdir ../jd_comment/images
-mkdir ../jd_comment/wordsImages
-mkdir ../jd_comment/logs
-docker run -v ../jd_comment/images:./images -v ../jd_comment/wordsImages:./logs -p 9090:9090 -p 50051:50051 -p 50052:50052 yeyr2:go_Gin_Colly ./main 
-docker run -v ../jd_comment/wordsImages:./images -p 50051:50051 yeyr2:pyWordCloud python service.py
-docker run -p 50052:50052 yeyr2:pyAnalyzeComment python service.py
+docker run -d -p 9006:3306 --network jd_comments_network --name mysql -e MYSQL_ROOT_PASSWORD=<password> -d mysql:latest
 ```
-    
+将 `<password>` 改为自己的sql密码
 
-# 接口:
+### 构建存储文件
+```shell
+mkdir ../jd_comment
+mkdir ../jd_comment/images ../jd_comment/wordsImages ../jd_comment/logs
+```
+
+### 启动应用程序容器并将其连接到该网络
+```shell
+docker run -d --network jd_comments_network -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/logs -p 9090:9090 -p 50051:50051 -p 50052:50052 yeyr2:go_Gin_Colly ./main 
+docker run -d --network jd_comments_network -v $(pwd)/../jd_comment/wordsImages:/pyWordCloud/images -p 50051:50051 yeyr2:pyWordCloud python service.py
+docker run -d --network jd_comments_network -p 50052:50052 yeyr2:pyAnalyzeComment python service.py
+```
+
+
+
+## 接口:
     
