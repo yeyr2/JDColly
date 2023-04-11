@@ -76,5 +76,5 @@ func initRouter(r *gin.Engine) {
 	ans.POST("/register", handler2.Register)
 	ans.GET("/search", handler2.SearchInfo)
 	ans.GET("/userinfo", handler2.Userinfo)
-	ans.GET("/modifyUser", handler2.ModifyUserInformation)
+	ans.POST("/modifyUser", handler2.ModifyUserInformation)
 }
