@@ -20,6 +20,7 @@ services:
   go_Gin_Colly:
 #    build: ./go-Gin-colly
     image: yeyr2:go_Gin_Colly
+    restart: always
     ports:
       - "9090:9090"
     volumes:
