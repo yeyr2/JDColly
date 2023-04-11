@@ -1,4 +1,6 @@
-create table comments
+create database if not exists jdColly;
+
+create table if not exists comments
 (
     id                bigint auto_increment
         primary key,
@@ -10,7 +12,7 @@ create table comments
     useful_vote_count int              null
 );
 
-create table infoColly
+create table if not exists infoColly
 (
     id         bigint auto_increment
         primary key,
@@ -23,7 +25,7 @@ create table infoColly
     `key`      varchar(100) null
 );
 
-create table user(
+create table if not exists user(
     id                  bigint auto_increment primary key ,
     nickname            varchar(100) not null ,
     username            varchar(50) not null,
@@ -36,13 +38,10 @@ create table user(
 #     login int default 0 check ( login in (0,1))
 );
 
-create table search(
+create table if not exists search(
     id bigint auto_increment primary key ,
     user_id bigint ,
     `key` varchar(100),
     create_time bigint,
     update_time bigint
 );
-
-update user set sex = '男', phone_number = '123',email = '1234124@gmail.com',
-                address = '翻斗大街翻斗花园二号楼1001室', emergency_contact = '1145141919810' where id = 1;

@@ -12,6 +12,7 @@ services:
     volumes:
       - ./db:/var/lib/mysql
       - ./CreateSql:/createSql
+      - ./CreateSql/createSql.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       MYSQL_ROOT_PASSWORD: root
     restart: always

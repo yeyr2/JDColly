@@ -75,7 +75,7 @@ docker-compose up
 
 #### 启动MySQL容器并将其连接到Docker网络
 ```shell
-docker run -d -p 9006:3306 --network jd_comments_network --name mysql -e MYSQL_ROOT_PASSWORD=<password> -d mysql:latest
+docker run -d -p 3307:3306 --network jd_comments_network --name mysql -e MYSQL_ROOT_PASSWORD=<password> -d mysql:latest
 ```
 将 `<password>` 改为自己的sql密码
 
@@ -92,7 +92,6 @@ docker run -d --network jd_comments_network --name pyWordCloud -v $(pwd)/../jd_c
 ```shell
 docker run -d --network jd_comments_network --name go_Gin_Colly -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/logs -p 9090:9090 yeyr2:go_Gin_Colly ./main 
 ```
-docker run -it --network jd_comments_network --name go_Gin_Colly -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/logs -p 9090:9090 yeyr2:go_Gin_Colly bash
 
 ## 接口:
     
