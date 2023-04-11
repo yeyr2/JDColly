@@ -17,9 +17,12 @@
 ## 构建docker镜像
 
 ### 创建一个Docker网络     
+#### 使用bridge
 ```shell
 docker network create jd_comments_network
 ```
+#### 使用host
+默认有且只能有一个host,一般名字就是host
 
 ### 构建镜像   
 ```shell
