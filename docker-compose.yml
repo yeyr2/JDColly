@@ -1,8 +1,8 @@
 version: '3'
 
-networks:
-  jd_comment_network:
-    driver: bridge
+#networks:
+#  jd_comment_network:
+#    driver: bridge
 
 services:
   db:
@@ -16,8 +16,8 @@ services:
       MYSQL_ROOT_PASSWORD: root
     restart: always
     network_mode : host
-    networks:
-      - jd_comment_network
+#    networks:
+#      - jd_comment_network
 
   go_Gin_Colly:
 #    build: ./go-Gin-colly
@@ -35,8 +35,8 @@ services:
       - pyWordCloud
     command: ./main
     network_mode : host
-    networks:
-      - jd_comment_network
+#    networks:
+#      - jd_comment_network
     environment:
       DB_HOST: db
       DB_NAME: jdColly
@@ -53,8 +53,8 @@ services:
       - ../jd_comment/wordsImages:/pyWordCloud/images
     command: python service.py
     network_mode : host
-    networks:
-      - jd_comment_network
+#    networks:
+#      - jd_comment_network
 
   pyAnalyzeComment:
 #    build: ./pyAnalyzeComment
@@ -64,5 +64,5 @@ services:
       - "50052:50052"
     command: python service.py
     network_mode : host
-    networks:
-      - jd_comment_network
+#    networks:
+#      - jd_comment_network
