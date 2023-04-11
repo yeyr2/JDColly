@@ -1,5 +1,3 @@
-create database if not exists jdColly;
-
 create table if not exists comments
 (
     id                bigint auto_increment

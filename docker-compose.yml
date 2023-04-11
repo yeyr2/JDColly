@@ -28,17 +28,17 @@ services:
       - ./images:/jd_comment/images
       - ./wordsImages:/jd_comment/logs
     depends_on:
-#      - db
+      - db
       - pyAnalyzeComment
       - pyWordCloud
     command: ./main
     networks:
       - jd_comment_network
-#    environment:
-#      DB_HOST: db
-#      DB_NAME: jdColly
-#      DB_USER: root
-#      DB_PASSWORD: root
+    environment:
+      DB_HOST: db
+      DB_NAME: jdColly
+      DB_USER: root
+      DB_PASSWORD: root
 
   pyWordCloud:
 #    build: ./pyWordCloud
