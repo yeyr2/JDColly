@@ -17,7 +17,10 @@ var productToLastTime = make(map[int64]int64)
 
 func GetCommentById(id string, startTime, lastTime int64, comment *cmd.JDComment) bool {
 
-	GetTotalPages(id, comment, startTime, lastTime)
+	flag := GetTotalPages(id, comment, startTime, lastTime)
+	if !flag {
+		return true
+	}
 	time.Sleep(1 * time.Second)
 
 	pages := comment.MaxPage
@@ -115,8 +118,9 @@ func JsonBody(body *[]byte, startTime, lastTime int64, comment *cmd.JDComment) b
 	return flag
 }
 
-func GetTotalPages(id string, comment *cmd.JDComment, startTime, lastTime int64) {
+func GetTotalPages(id string, comment *cmd.JDComment, startTime, lastTime int64) bool {
 	urls := GetCommentUrl(id, "0")
+	flag := true
 
 	c := colly.NewCollector(
 		colly.AllowURLRevisit(),
@@ -151,7 +155,7 @@ func GetTotalPages(id string, comment *cmd.JDComment, startTime, lastTime int64)
 
 		translation(comment)
 		sqlLastTime := sql.CommentsLastTime(comment.ProductCommentSummary.ProductID)
-		sql.SaveComment(*comment, sqlLastTime)
+		flag = sql.SaveComment(*comment, sqlLastTime)
 		productToLastTime[comment.ProductCommentSummary.ProductID] = sqlLastTime
 
 		DeleteCommentByLastTime(&comment.Comments, startTime, lastTime)
@@ -159,6 +163,8 @@ func GetTotalPages(id string, comment *cmd.JDComment, startTime, lastTime int64)
 	c.Visit(urls)
 
 	c.Wait()
+
+	return flag
 }
 
 func DeleteCommentByLastTime(comments *[]cmd.Comments, startTime, lastTime int64) {

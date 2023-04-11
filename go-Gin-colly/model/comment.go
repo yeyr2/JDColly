@@ -52,7 +52,7 @@ func SaveComment(comments cmd.JDComment, lastTime int64) bool {
 		sqlCom = append(sqlCom, tmp)
 	}
 	res := db.Create(sqlCom)
-	if res.RowsAffected == 0 {
+	if res.RowsAffected < 10 {
 		return false
 	}
 	return true
