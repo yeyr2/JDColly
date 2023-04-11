@@ -45,7 +45,7 @@ services:
 
   pyAnalyzeComment:
 #    build: ./pyAnalyzeComment
-    image: yeyr2:pyRpc
+    image: yeyr2:pyAnalyzeComment
     restart: always
     ports:
       - "50052:50052"
