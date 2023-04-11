@@ -82,5 +82,5 @@ func SearchComments(productId string) bool {
 		return true
 	}
 
-	return true
+	return false
 }
