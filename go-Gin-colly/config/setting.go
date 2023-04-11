@@ -1,6 +1,7 @@
 package config
 
 const LocalHost = "127.0.0.1"
+const DB = "db"
 const Host = "www.iyeyr2.top"
 const User = "root"
 const Pass = "root"
