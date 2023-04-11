@@ -25,8 +25,8 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./images:/jd_comment/images
-      - ./wordsImages:/jd_comment/logs
+      - ../jd_comment/images:/jd_comment/images
+      - ../jd_comment/wordsImages:/jd_comment/logs
     depends_on:
       - db
       - pyAnalyzeComment
@@ -47,7 +47,7 @@ services:
     ports:
       - "50051:50051"
     volumes:
-      - ./wordsImages:/pyWordCloud/images
+      - ../jd_comment/wordsImages:/pyWordCloud/images
     command: python service.py
     networks:
       - jd_comment_network
