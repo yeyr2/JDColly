@@ -16,7 +16,7 @@ services:
       - jd_comment_network
 
   go_Gin_Colly:
-    build: ./go-Gin-colly
+#    build: ./go-Gin-colly
     image: yeyr2:go_Gin_Colly
     ports:
       - "9090:9090"
@@ -32,7 +32,7 @@ services:
       - jd_comment_network
 
   pyWordCloud:
-    build: ./pyWordCloud
+#    build: ./pyWordCloud
     image: yeyr2:pyWordCloud
     restart: always
     ports:
@@ -44,7 +44,7 @@ services:
       - jd_comment_network
 
   pyAnalyzeComment:
-    build: ./pyAnalyzeComment
+#    build: ./pyAnalyzeComment
     image: yeyr2:pyRpc
     restart: always
     ports:
