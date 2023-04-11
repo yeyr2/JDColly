@@ -2,8 +2,8 @@ version: '3'
 
 networks:
   jd_comment_network:
-    driver: host
-#    driver: bridge
+#    driver: host
+    driver: bridge
 
 services:
   db:
