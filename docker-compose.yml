@@ -5,17 +5,18 @@ networks:
     driver: bridge
 
 services:
-  db:
-    image: mysql:latest
-    ports:
-      - "127.0.0.1:3306:3306"
-    volumes:
-      - ./db:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    restart: always
-    networks:
-      - jd_comment_network
+#  db:
+#    image: mysql:latest
+#    ports:
+#      - "127.0.0.1:3306:3306"
+#    volumes:
+#      - ./db:/var/lib/mysql
+#      - ./CreateSql:/createSql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#    restart: always
+#    networks:
+#      - jd_comment_network
 
   go_Gin_Colly:
 #    build: ./go-Gin-colly
@@ -24,15 +25,20 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ../jd_comment/images:/jd_comment/images
-      - ../jd_comment/wordsImages:/jd_comment/logs
+      - ./images:/jd_comment/images
+      - ./wordsImages:/jd_comment/logs
     depends_on:
-      - db
+#      - db
       - pyAnalyzeComment
       - pyWordCloud
     command: ./main
     networks:
       - jd_comment_network
+#    environment:
+#      DB_HOST: db
+#      DB_NAME: jdColly
+#      DB_USER: root
+#      DB_PASSWORD: root
 
   pyWordCloud:
 #    build: ./pyWordCloud
@@ -41,7 +47,7 @@ services:
     ports:
       - "50051:50051"
     volumes:
-      - ../jd_comment/wordsImages:/pyWordCloud/images
+      - ./wordsImages:/pyWordCloud/images
     command: python service.py
     networks:
       - jd_comment_network
