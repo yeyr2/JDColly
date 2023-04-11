@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
+	sql "reptile-test-go/model"
 	"strconv"
 	"strings"
 )
@@ -50,18 +51,29 @@ func GetComment(c *gin.Context) {
 
 	if isColly != 1 {
 		// 获取评论
-		logic.GetCommentById(productId, startTime, lastTime, &jdComment)
-		//fmt.Println(len(jdComment.Comments))
-		comments = &jdComment.Comments
-	} else {
+		if sql.SearchComments(productId) {
+			logic.GetCommentById(productId, startTime, lastTime, &jdComment)
+			comments = &jdComment.Comments
+		} else {
+			isColly = 1
+		}
+	}
+
+	if isColly == 1 {
 		// 从数据库中获取数据
 		comments = logic.GetCommentBySql(productId, startTime, lastTime)
 	}
 	analyze.Count = int32(len(*comments))
 
 	// 分析获取的评价(总评价,评价区间)
-	flag := logic.AnalyzeGetComments(comments, &analyze, "Chinese NLP")
-	if !flag {
+	var flag = make(chan bool)
+	go logic.AnalyzeGetComments(comments, &analyze, "Chinese NLP", flag)
+
+	// 获取词云分析
+	var result = make(chan bool)
+	go logic.WordCloudAnalysis(comments, &analyze, productId, result)
+
+	if !<-flag {
 		c.JSON(http.StatusOK, cmd.Response{
 			StatusCode: 1,
 			StatusMsg:  "没有评论",
@@ -69,9 +81,14 @@ func GetComment(c *gin.Context) {
 		return
 	}
 
-	// 获取词云分析
-	logic.WordCloudAnalysis(comments, &analyze, productId)
-
+	if !<-result {
+		c.JSON(http.StatusOK, cmd.Response{
+			StatusCode: 1,
+			StatusMsg:  "词云获取异常",
+			Value:      analyze,
+		})
+		return
+	}
 	//setHeader(c)
 
 	c.JSON(http.StatusOK, cmd.Response{

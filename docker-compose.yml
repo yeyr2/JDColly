@@ -26,7 +26,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ../jd_comment/images:/jd_comment/images
+      - ../jd_comment/images:/JDColly/images
       - ../jd_comment/wordsImages:/jd_comment/wordsImages
       - ../jd_comment/logs:/JDColly/logs
     depends_on:

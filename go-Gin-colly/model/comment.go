@@ -1,7 +1,6 @@
 package sql
 
 import (
-	"log"
 	"reptile-test-go/cmd"
 	"time"
 )
@@ -28,9 +27,9 @@ func CommentsLastTime(productId int64) (lastTime int64) {
 	return lastTime
 }
 
-func SaveComment(comments cmd.JDComment, lastTime int64) {
+func SaveComment(comments cmd.JDComment, lastTime int64) bool {
 	if len(comments.Comments) == 0 {
-		return
+		return false
 	}
 	sqlCom := make([]*sqlComment, 0, len(comments.Comments))
 
@@ -54,8 +53,9 @@ func SaveComment(comments cmd.JDComment, lastTime int64) {
 	}
 	res := db.Create(sqlCom)
 	if res.RowsAffected == 0 {
-		log.Println(res.Error)
+		return false
 	}
+	return true
 }
 
 func GetComments(id string, startTime, lastTime int64) *[]cmd.Comments {
@@ -72,4 +72,15 @@ func GetComments(id string, startTime, lastTime int64) *[]cmd.Comments {
 	}
 
 	return &comments
+}
+
+func SearchComments(productId string) bool {
+	nowTime := time.Now().Add(-2 * 24 * time.Hour).Unix()
+	result := db.Where("product_id = ? and reference_time < ?", productId, nowTime).Order("reference_time DESC").Find(&sqlComment{})
+
+	if result.RowsAffected == 0 { // 发请求
+		return true
+	}
+
+	return true
 }

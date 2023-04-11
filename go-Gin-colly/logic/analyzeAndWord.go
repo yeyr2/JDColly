@@ -19,30 +19,35 @@ func GetCommentBySql(id string, startTime, lastTime int64) *[]cmd.Comments {
 
 	return comments
 }
-func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, atype string) bool {
+func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, atype string, flag chan bool) {
 	if len(*comment) == 0 {
-		return false
+		flag <- false
+		return
 	}
 
 	if atype == "Chinese NLP" {
-		return AnalyzeGetCommentsNLP(comment, analyze)
+		flag <- AnalyzeGetCommentsNLP(comment, analyze)
+		return
 	}
 	if atype == "JieBa" {
-		return AnalyzeGetCommentsJieBa(comment, analyze)
+		flag <- AnalyzeGetCommentsJieBa(comment, analyze)
+		return
 	}
-	return false
+	flag <- false
 }
 
-func WordCloudAnalysis(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, id string) {
+func WordCloudAnalysis(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, id string, result chan bool) {
 	if len(*comment) == 0 {
 		analyze.AnalyzeWord = ""
+		result <- true
 		return
 	}
 
 	response := wordCloudRpc(comment, id)
 	response = "http://" + config.Host + "/wordcloud/" + response
 	analyze.AnalyzeWord = response
-	//fmt.Println(response)
+
+	result <- true
 }
 
 func AnalyzeGetCommentsJieBa(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bool {
