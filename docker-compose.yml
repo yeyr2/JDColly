@@ -5,18 +5,18 @@ networks:
     driver: bridge
 
 services:
-#  db:
-#    image: mysql:latest
-#    ports:
-#      - "127.0.0.1:3306:3306"
-#    volumes:
-#      - ./db:/var/lib/mysql
-#      - ./CreateSql:/createSql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: root
-#    restart: always
-#    networks:
-#      - jd_comment_network
+  db:
+    image: mysql:latest
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./CreateSql:/createSql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    restart: always
+    networks:
+      - jd_comment_network
 
   go_Gin_Colly:
 #    build: ./go-Gin-colly
