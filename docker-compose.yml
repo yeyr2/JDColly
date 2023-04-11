@@ -1,0 +1,56 @@
+version: '3'
+
+networks:
+  jd_comment_network:
+    driver: bridge
+
+services:
+  db:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    restart: always
+    networks:
+      - jd_comment_network
+
+  web:
+    build: ./go-Gin-colly
+    image: yeyr2:go_Gin_Colly
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../jd_comment/images:/jd_comment/images
+      - ../jd_comment/wordsImages:/jd_comment/logs
+    depends_on:
+      - db
+      - pyAnalyzeComment
+      - pyWordCloud
+    command: ./main
+    networks:
+      - jd_comment_network
+
+  pyWordCloud:
+    build: ./pyWordCloud
+    image: yeyr2:pyWordCloud
+    restart: always
+    ports:
+      - "50051:50051"
+    volumes:
+      - ../jd_comment/wordsImages:/pyWordCloud/images
+    command: python service.py
+    networks:
+      - jd_comment_network
+
+  pyAnalyzeComment:
+    build: ./pyAnalyzeComment
+    image: yeyr2:pyRpc
+    restart: always
+    ports:
+      - "50052:50052"
+    command: python service.py
+    networks:
+      - jd_comment_network

@@ -59,33 +59,40 @@ docker build --network="host" -t yeyr2:pyWordCloud .
 cd ..
 ```
 
-## 启动
-
-### 启动MySQL容器并将其连接到Docker网络  
-```shell
-docker run -d -p 9006:3306 --network jd_comments_network --name mysql -e MYSQL_ROOT_PASSWORD=<password> -d mysql:latest
-```
-将 `<password>` 改为自己的sql密码
-
-### 构建存储文件
+## 构建存储文件
 ```shell
 mkdir ../jd_comment
 mkdir ../jd_comment/images ../jd_comment/wordsImages ../jd_comment/logs
 ```
 
-### 启动应用程序容器并将其连接到Docker网络
+## 启动
+### 方式一:docker-compose
 ```shell
-docker run -d --network jd_comments_network -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/logs -p 9090:9090 yeyr2:go_Gin_Colly ./main 
+docker-compose up
+```
+
+### 方式二:docker
+
+#### 启动MySQL容器并将其连接到Docker网络
+```shell
+docker run -d -p 9006:3306 --network jd_comments_network --name mysql -e MYSQL_ROOT_PASSWORD=<password> -d mysql:latest
+```
+将 `<password>` 改为自己的sql密码
+
+#### 启动应用程序容器并将其连接到Docker网络
+
+```shell
+docker run -d --network jd_comments_network --name pyAnalyzeComment -p 50052:50052 yeyr2:pyAnalyzeComment python service.py
 ```
 
 ```shell
-docker run -d --network jd_comments_network -p 50052:50052 yeyr2:pyAnalyzeComment python service.py
+docker run -d --network jd_comments_network --name pyWordCloud -v $(pwd)/../jd_comment/wordsImages:/pyWordCloud/images -p 50051:50051 yeyr2:pyWordCloud python service.py
 ```
+
 ```shell
-docker run -d --network jd_comments_network -v $(pwd)/../jd_comment/wordsImages:/pyWordCloud/images -p 50051:50051 yeyr2:pyWordCloud python service.py
+docker run -d --network jd_comments_network --name go_Gin_Colly -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/logs -p 9090:9090 yeyr2:go_Gin_Colly ./main 
 ```
-
-
+docker run -it --network jd_comments_network --name go_Gin_Colly -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/logs -p 9090:9090 yeyr2:go_Gin_Colly bash
 
 ## 接口:
     
