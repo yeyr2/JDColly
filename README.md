@@ -90,7 +90,7 @@ docker run -d --network jd_comments_network --name pyWordCloud -v $(pwd)/../jd_c
 ```
 
 ```shell
-docker run -d --network jd_comments_network --name go_Gin_Colly -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/logs -p 9090:9090 yeyr2:go_Gin_Colly ./main 
+docker run -d --network jd_comments_network --name go_Gin_Colly -v $(pwd)/../jd_comment/images:/jd_comment/images -v $(pwd)/../jd_comment/wordsImages:/jd_comment/wordsImages -v $(pwd)/../jd_comment/logs:/JDColly/logs -p 9090:9090 yeyr2:go_Gin_Colly ./main 
 ```
 
 ## 接口:

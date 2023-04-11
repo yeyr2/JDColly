@@ -27,7 +27,8 @@ services:
       - "9090:9090"
     volumes:
       - ../jd_comment/images:/jd_comment/images
-      - ../jd_comment/wordsImages:/jd_comment/logs
+      - ../jd_comment/wordsImages:/jd_comment/wordsImages
+      - ../jd_comment/logs:/JDColly/logs
     depends_on:
       - db
       - pyAnalyzeComment
