@@ -7,8 +7,6 @@ networks:
 services:
   db:
     image: mysql:latest
-    ports:
-      - "3306:3306"
     volumes:
       - ./db:/var/lib/mysql
     environment:
@@ -17,7 +15,7 @@ services:
     networks:
       - jd_comment_network
 
-  web:
+  go_Gin_Colly:
     build: ./go-Gin-colly
     image: yeyr2:go_Gin_Colly
     ports:

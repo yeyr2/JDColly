@@ -3,7 +3,7 @@ package config
 const LocalHost = "127.0.0.1"
 const Host = "www.iyeyr2.top"
 const User = "root"
-const Pass = ""
+const Pass = "root"
 const SqlPort = "3306"
 
 //var Host = "127.0.0.1:9090" // 获取ip地址
