@@ -12,7 +12,7 @@ var analyzeWordsClient AnalysisByNLP.GreeterClient
 
 func init() {
 	// 创建gRPC连接
-	conn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
+	conn, err := grpc.Dial("pyAnalyzeComment:50052", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Failed to dial: %v", err)
 	}

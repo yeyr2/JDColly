@@ -12,7 +12,7 @@ var wordCloudClient WordsCloud2.GreeterClient
 
 func init() {
 	// 创建gRPC连接
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	conn, err := grpc.Dial("pyWordCloud:50051", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Failed to dial: %v", err)
 	}
