@@ -11,8 +11,7 @@ services:
       - "127.0.0.1:3306:3306"
     volumes:
       - ./db:/var/lib/mysql
-      - ./CreateSql:/createSql
-      - ./CreateSql/createSql.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./CreateSql/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       MYSQL_ROOT_PASSWORD: root
     restart: always
