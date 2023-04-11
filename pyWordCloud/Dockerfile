@@ -21,10 +21,7 @@ COPY . .
 #    apt-get install -y libproj-dev proj-data proj-bin libgeos-dev && \
 #    apt-get clean && \
 #    rm -rf /var/lib/apt/lists/* && \
-RUN  apt-get update -y && \
-     apt-get install -y fonts-wqy-microhei  && \
-     apt-get install -y ttf-wqy-zenhei && \
-     python -m pip install --upgrade pip && \
+RUN  python -m pip install --upgrade pip && \
      pip3 install wordcloud jieba grpcio-tools protobuf
 
 # RUN pip3 install -r requirements.txt

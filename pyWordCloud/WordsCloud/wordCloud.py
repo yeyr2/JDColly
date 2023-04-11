@@ -8,8 +8,8 @@ from collections import Counter
 import jieba
 from wordcloud import WordCloud
 
-font_path_ubuntu = "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc"
-font_path_arch = "/usr/share/fonts/wenquanyi/wqy-zenhei/wqy-zenhei.ttc"
+# font_path_ubuntu = "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc"
+# font_path_arch = "/usr/share/fonts/wenquanyi/wqy-zenhei/wqy-zenhei.ttc"
 
 
 def split_text(text):
@@ -32,10 +32,11 @@ def split_text(text):
 
 
 def word_cloud(text_str, productId):
-    if platform.platform().find("arch") != -1:  # arch
-        font_path = font_path_arch
-    else:
-        font_path = font_path_ubuntu  # ubuntu
+    # if platform.platform().find("arch") != -1:  # arch
+    #     font_path = font_path_arch
+    # else:
+    #     font_path = font_path_ubuntu  # ubuntu
+    font_path = './ttf/wqy-zenhei.ttc'
 
     stopwords = set(map(str.strip, open('./stopwords/cn_stopwords.txt').readlines(),
                         open("./stopwords/baidu_stopwords.txt").readlines()))
