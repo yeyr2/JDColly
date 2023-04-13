@@ -17,7 +17,7 @@ services:
 #    network_mode : host
     networks:
       - jd_comment_network
-    extra_hosts: # 增加此行与如下一行
+    extra_hosts:
       - "api.embbnux.com:10.98.10.98"
 #    dns:
 #      - 8.8.8.8

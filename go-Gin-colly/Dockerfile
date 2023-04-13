@@ -6,7 +6,8 @@ WORKDIR /JDColly
 # 复制 Go 程序代码到镜像中
 COPY . .
 
-RUN go mod tidy && \
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone && \
+    go mod tidy && \
     go mod download && \
     go build main.go
 
