@@ -177,15 +177,15 @@ GET /new/comment?{id}&{key}&{isColly}&{token}
 | data  | object | 商品信息列表      |
 | msg   | string | 提示信息        |
 
-| data字段名称  | 类型     | Selector                                 | Attribute     | JSON 名称        | GORM 列名    |
-|-----------|--------|------------------------------------------|---------------|----------------|------------|
-| Img       | string | div.gl-i-wrap > div.p-img > a > img      | data-lazy-img | shopImgSrc     | img        |
-| Price     | string | div.gl-i-wrap > div.p-price > strong > i | -             | shopPrice      | price      |
-| Name      | string | div.gl-i-wrap > div.p-name > a > em      | -             | shopName       | name       |
-| ProductId | string | -                                        | -             | shopProduct_id | product_id |
-| Title     | string | div.gl-i-wrap > div.p-name > a           | title         | shopTitle      | title      |
-| Url       | string | div.gl-i-wrap > div.p-img > a            | href          | shopURL        | url        |
-| Key       | string | -                                        | -             | key            | key        |
+| data字段名称  | 类型     | 描述     |
+|-----------|--------|--------|
+| Img       | string | 商品图片地址 |
+| Price     | string | 商品价格   |
+| Name      | string | 商品名称   |
+| ProductId | string | 商品ID   |
+| Title     | string | 商品标题   |
+| Url       | string | 商品地址   |
+| Key       | string | 商品关键词  |
 
 #### 响应示例
 ```json
