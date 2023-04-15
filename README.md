@@ -85,6 +85,12 @@ docker build -t yeyr2:pyWordCloud .
 cd ..
 ```
 
+```shell
+cd ./web
+docker build -t yeyr2:web .
+cd ..
+```
+
 如果下载时超时,可以使用本机的网络
 ```shell
 cd ./go-Gin-colly
@@ -103,6 +109,13 @@ cd ./pyWordCloud
 docker build --network="host" -t yeyr2:pyWordCloud .
 cd ..
 ```
+
+```shell
+cd ./web
+docker build --network="host" -t yeyr2:web .
+cd ..
+```
+
 
 ## 构建存储文件
 ```shell
