@@ -13,7 +13,14 @@
 >     - 使用wordcloud jieba grpcio-tools protobuf snownlp 外部库
 
 > 使用前请修改`go-Gin-colly/config/setting.go`文件的Host为自己的host   
-> 使用前请安装`nginx/nginx.conf`设置本地nginx 
+> 使用前请安装`nginx/nginx.conf`设置本地nginx .
+> 
+> web的docker使用有误，暂时无法使用，请使用npm安装使用。
+> ```shell
+>    npm install -g @vue/cli && \
+>    npm install
+>    npm run serve
+>```
 
 默认端口为9090,设置nginx后可用80，即`http://127.0.0.1:9090/` ，设置nginx后为 `http://127.0.0.1:80/`
 
