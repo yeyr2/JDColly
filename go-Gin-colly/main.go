@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"reptile-test-go/config"
 	handler2 "reptile-test-go/handler"
 	"reptile-test-go/middleware"
 	_ "reptile-test-go/model"
@@ -31,7 +32,7 @@ func main() {
 	initRouter(r)
 
 	// 指定服务端口
-	addr := ":9090"
+	addr := ":" + config.Addr
 	server := &http.Server{
 		Addr:    addr,
 		Handler: r,

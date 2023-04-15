@@ -6,6 +6,7 @@ const Host = "www.iyeyr2.top"
 const User = "root"
 const Pass = "root"
 const SqlPort = "3306"
+const Addr = "9090"
 
 //var Host = "127.0.0.1:9090" // 获取ip地址
 //func GetOutBoundIP() (ip string, err error) {

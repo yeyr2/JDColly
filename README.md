@@ -12,7 +12,10 @@
 >   - python
 >     - 使用wordcloud jieba grpcio-tools protobuf snownlp 外部库
 
-> 使用前请修改`go-Gin-colly/config/setting.go`文件的Host为自己的host
+> 使用前请修改`go-Gin-colly/config/setting.go`文件的Host为自己的host   
+> 使用前请安装`nginx/nginx.conf`设置本地nginx 
+
+默认端口为9090,设置nginx后可用80，即`http://127.0.0.1:9090/` ，设置nginx后为 `http://127.0.0.1:80/`
 
 ## 项目结构
 ```
