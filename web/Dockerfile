@@ -9,8 +9,8 @@ COPY package*.json ./
 
 # 安装依赖项
 RUN npm install -g cnpm --registry=http://registry.npm.taobao.org && \
-    (c)npm install -g @vue/cli && \
-npm install
+    cnpm install -g @vue/cli && \
+    npm install
 
 # 将应用程序代码复制到镜像中
 COPY . .
