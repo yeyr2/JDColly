@@ -9,7 +9,9 @@ COPY . .
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone && \
     go mod tidy && \
     go mod download && \
-    go build main.go
+    go build main.go && \
+    rm -f /etc/localtime && \
+    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 # 暴露端口
 EXPOSE 9090
