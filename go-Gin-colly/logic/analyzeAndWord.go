@@ -3,9 +3,9 @@ package logic
 import (
 	"github.com/jonreiter/govader"
 	"math"
-	"reptile-test-go/cmd"
 	"reptile-test-go/config"
 	"reptile-test-go/model"
+	"reptile-test-go/struct"
 )
 
 // 按照出现频率排序
@@ -14,12 +14,12 @@ type kv struct {
 	Value int
 }
 
-func GetCommentBySql(id string, startTime, lastTime int64) *[]cmd.Comments {
+func GetCommentBySql(id string, startTime, lastTime int64) *[]_struct.Comments {
 	comments := sql.GetComments(id, startTime, lastTime)
 
 	return comments
 }
-func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, atype string, flag chan bool) {
+func AnalyzeGetComments(comment *[]_struct.Comments, analyze *_struct.AnalyzeComment, atype string, flag chan bool) {
 	if len(*comment) == 0 {
 		flag <- false
 		return
@@ -36,7 +36,7 @@ func AnalyzeGetComments(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, at
 	flag <- false
 }
 
-func WordCloudAnalysis(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, id string, result chan bool) {
+func WordCloudAnalysis(comment *[]_struct.Comments, analyze *_struct.AnalyzeComment, id string, result chan bool) {
 	if len(*comment) == 0 {
 		analyze.AnalyzeWord = ""
 		result <- true
@@ -50,7 +50,7 @@ func WordCloudAnalysis(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment, id 
 	result <- true
 }
 
-func AnalyzeGetCommentsJieBa(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bool {
+func AnalyzeGetCommentsJieBa(comment *[]_struct.Comments, analyze *_struct.AnalyzeComment) bool {
 	var sum [5]float64
 	var count [5]int
 	counts, sums := 0, 0
@@ -92,7 +92,7 @@ func AnalyzeGetCommentsJieBa(comment *[]cmd.Comments, analyze *cmd.AnalyzeCommen
 	return true
 }
 
-func AnalyzeGetCommentsNLP(comment *[]cmd.Comments, analyze *cmd.AnalyzeComment) bool {
+func AnalyzeGetCommentsNLP(comment *[]_struct.Comments, analyze *_struct.AnalyzeComment) bool {
 	if len(*comment) == 0 {
 		analyze.AnalyzeWord = ""
 		return false

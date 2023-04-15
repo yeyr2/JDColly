@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
-	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
 	"reptile-test-go/model"
+	"reptile-test-go/struct"
 	"strconv"
 	"strings"
 )
@@ -30,7 +30,7 @@ func Login(c *gin.Context) {
 
 	user, err := sql.CheckLogin(username, password)
 	if err != nil {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  err.Error(),
 		})
@@ -53,7 +53,7 @@ func Register(c *gin.Context) {
 
 	result := sql.CheckUserExist(username)
 	if result {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  "该账号已存在",
 		})
@@ -62,7 +62,7 @@ func Register(c *gin.Context) {
 
 	user, err := sql.CreateUser(username, password)
 	if err != nil {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  err.Error(),
 		})
@@ -83,7 +83,7 @@ func Userinfo(c *gin.Context) {
 
 	claims, err := logic.ParseToken(token)
 	if err != nil {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 2,
 			StatusMsg:  err.Error(),
 		})
@@ -91,7 +91,7 @@ func Userinfo(c *gin.Context) {
 	}
 
 	if claims.Id != id {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  "用户信息错误",
 		})
@@ -100,7 +100,7 @@ func Userinfo(c *gin.Context) {
 
 	user, err := sql.FindUserById(claims.Id)
 	if err != nil {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  err.Error(),
 		})
@@ -128,7 +128,7 @@ func ModifyUserInformation(c *gin.Context) {
 
 	cl, err := logic.ParseToken(token)
 	if err != nil {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 2,
 			StatusMsg:  err.Error(),
 		})
@@ -136,7 +136,7 @@ func ModifyUserInformation(c *gin.Context) {
 	}
 
 	if cl.Id != id {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  "用户信息错误",
 		})
@@ -145,7 +145,7 @@ func ModifyUserInformation(c *gin.Context) {
 
 	user, err := sql.FindUserById(cl.Id)
 	if err != nil {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  err.Error(),
 		})
@@ -188,14 +188,14 @@ func ModifyUserInformation(c *gin.Context) {
 
 	err = logic.ModifyUser(user, id)
 	if err != nil {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  err.Error(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, cmd.Response{
+	c.JSON(http.StatusOK, _struct.Response{
 		StatusCode: 0,
 	})
 }

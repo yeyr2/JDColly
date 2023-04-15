@@ -4,8 +4,8 @@ import (
 	"context"
 	"google.golang.org/grpc"
 	"log"
-	"reptile-test-go/cmd"
 	WordsCloud2 "reptile-test-go/goGRPC/WordsCloud"
+	"reptile-test-go/struct"
 )
 
 var wordCloudClient WordsCloud2.GreeterClient
@@ -21,7 +21,7 @@ func init() {
 	wordCloudClient = WordsCloud2.NewGreeterClient(conn)
 }
 
-func wordCloudRpc(comment *[]cmd.Comments, id string) string {
+func wordCloudRpc(comment *[]_struct.Comments, id string) string {
 	request := cmdFormRPC(comment)
 	request.ProductId = id
 	response, err := wordCloudClient.WordCloudAnalysis(context.Background(), request)
@@ -31,7 +31,7 @@ func wordCloudRpc(comment *[]cmd.Comments, id string) string {
 	return response.WordsCloud
 }
 
-func cmdFormRPC(comment *[]cmd.Comments) *WordsCloud2.RpcComment {
+func cmdFormRPC(comment *[]_struct.Comments) *WordsCloud2.RpcComment {
 	ans := new(WordsCloud2.RpcComment)
 	ans.Content = make([]string, 0, len(*comment))
 	for _, x := range *comment {

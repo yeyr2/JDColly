@@ -12,7 +12,46 @@
 >   - python
 >     - 使用wordcloud jieba grpcio-tools protobuf snownlp 外部库
 
-> 使用前请修改`go-Gin-colly/config/setting.go`文件
+> 使用前请修改`go-Gin-colly/config/setting.go`文件的Host为自己的host
+
+## 项目结构
+```
+JDColly
+├─README.md  项目介绍文档
+├─docker-compose.yml  启动docker
+├─web web前端应用
+├─pyWordCloud  词云制作
+|      ├─Dockerfile  构建docker镜像
+|      ├─service.py  启动
+|      ├─ttf         中文词包 
+|      ├─stopwords  中文常用停用词表
+|      ├─service    gRPC的IDL及其生成的gRPC服务器源文件
+|      ├─WordsCloud   生成词云
+├─pyAnalyzeComment  情感分析
+|        ├─Dockerfile   构建docker镜像
+|        ├─service.py   启动
+|        ├─service      gRPC的IDL及其生成的gRPC服务器源文件
+|        ├─analysisWords 情感分析生成情感评分
+├─nginx nginx配置文件及其dokcerfile
+|   ├─Dockerfile    构建docker镜像
+|   ├─colly.conf    nginx配置文件
+|   └sources.list   构建docker镜像需要的文件
+├─go-Gin-colly  jdColly服务主程序
+|      ├─Dockerfile 构建docker镜像。
+|      ├─go.mod     Go包的集合，是源代码交换和版本控制的单元。
+|      ├─go.sum     go module 构建出的依赖版本信息。
+|      ├─main.go    程序入口，启动了服务器并监听 HTTP 请求。
+|      ├─model      存放与 MySQL 数据库交互的模型文件。
+|      ├─middleware 中间件目录，存放 Gin 的中间件。
+|      ├─logic      业务逻辑处理目录，包含了爬虫逻辑和数据处理逻辑。
+|      ├─handler    请求处理目录，处理 HTTP 请求并返回相应结果。
+|      ├─goGRPC GO gRPC 目录，存放了使用 gRPC 通信时需要的相关代码实现。
+|      |   ├─WordsCloud    与pyWordCloud的相关代码实现。
+|      |   ├─AnalysisByNLP 与pyAnalysisByNLP的相关代码实现。
+|      ├─config 配置文件目录。
+|      ├─struct 项目主要的数据结构定义。
+├─CreateSql mysql创建数据库语句
+```
 
 ## 构建docker镜像
 

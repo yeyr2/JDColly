@@ -2,12 +2,12 @@ package sql
 
 import (
 	"fmt"
-	"reptile-test-go/cmd"
+	"reptile-test-go/struct"
 	"time"
 )
 
-func GetSearchByClaimsId(cl *cmd.Claims) *[]cmd.Search {
-	var search []cmd.Search
+func GetSearchByClaimsId(cl *_struct.Claims) *[]_struct.Search {
+	var search []_struct.Search
 	id := cl.Id
 
 	db.Select("`key`,update_time").Where("user_id = ?", id).Limit(15).Order("update_time DESC").Find(&search)
@@ -20,7 +20,7 @@ func GetSearchByClaimsId(cl *cmd.Claims) *[]cmd.Search {
 }
 
 func SetSearch(key string, id int64) error {
-	search := cmd.Search{
+	search := _struct.Search{
 		Key:        key,
 		Id:         id,
 		UpdateTime: time.Now().Unix(),
@@ -41,10 +41,10 @@ func SetSearch(key string, id int64) error {
 	return nil
 }
 
-func UpdateSearch(search *cmd.Search) error {
+func UpdateSearch(search *_struct.Search) error {
 	search.UpdateTime = time.Now().Unix()
 
-	result := db.Model(&cmd.Search{}).Where("`key` = ? and user_id = ?", search.Key, search.Id).Updates(&search)
+	result := db.Model(&_struct.Search{}).Where("`key` = ? and user_id = ?", search.Key, search.Id).Updates(&search)
 
 	if result.RowsAffected == 0 {
 		return fmt.Errorf("更新搜索记录失败")

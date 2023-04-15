@@ -6,8 +6,8 @@ import (
 	"github.com/gocolly/colly/extensions"
 	"github.com/gocolly/colly/proxy"
 	"log"
-	"reptile-test-go/cmd"
 	"reptile-test-go/model"
+	"reptile-test-go/struct"
 	"strconv"
 	"time"
 )
@@ -15,7 +15,7 @@ import (
 var proxys = []string{"socks5://127.0.0.1:1080", "socks5://127.0.0.1:1081"}
 var productToLastTime = make(map[int64]int64)
 
-func GetCommentById(id string, startTime, lastTime int64, comment *cmd.JDComment) bool {
+func GetCommentById(id string, startTime, lastTime int64, comment *_struct.JDComment) bool {
 
 	flag := GetTotalPages(id, comment, startTime, lastTime)
 	if !flag {
@@ -42,7 +42,7 @@ func GetCommentById(id string, startTime, lastTime int64, comment *cmd.JDComment
 	return true
 }
 
-func SendHttp(productId string, comment *cmd.JDComment, pages int, startTime, lastTime int64) (err error) {
+func SendHttp(productId string, comment *_struct.JDComment, pages int, startTime, lastTime int64) (err error) {
 	c := colly.NewCollector(
 		colly.AllowURLRevisit(),
 		colly.Async(true),
@@ -98,8 +98,8 @@ func GetCommentUrl(productId string, page string) string {
 }
 
 // JsonBody 返回值用于判断是否继续爬
-func JsonBody(body *[]byte, startTime, lastTime int64, comment *cmd.JDComment) bool {
-	var tmp cmd.JDComment
+func JsonBody(body *[]byte, startTime, lastTime int64, comment *_struct.JDComment) bool {
+	var tmp _struct.JDComment
 	if len(*body) == 0 {
 		return true
 	}
@@ -118,7 +118,7 @@ func JsonBody(body *[]byte, startTime, lastTime int64, comment *cmd.JDComment) b
 	return flag
 }
 
-func GetTotalPages(id string, comment *cmd.JDComment, startTime, lastTime int64) bool {
+func GetTotalPages(id string, comment *_struct.JDComment, startTime, lastTime int64) bool {
 	urls := GetCommentUrl(id, "0")
 	flag := true
 
@@ -167,7 +167,7 @@ func GetTotalPages(id string, comment *cmd.JDComment, startTime, lastTime int64)
 	return flag
 }
 
-func DeleteCommentByLastTime(comments *[]cmd.Comments, startTime, lastTime int64) {
+func DeleteCommentByLastTime(comments *[]_struct.Comments, startTime, lastTime int64) {
 	length := len(*comments)
 	for i := 0; i < length; i++ {
 		t, err := time.Parse("2006-01-02 15:04:05", (*comments)[i].ReferenceTime)

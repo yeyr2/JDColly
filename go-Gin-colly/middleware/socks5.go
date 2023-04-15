@@ -82,7 +82,7 @@ func connect(reader *bufio.Reader, conn net.Conn) (err error) {
 		return fmt.Errorf("not supported ver:%v", ver)
 	}
 	if cmd != cmdBind {
-		return fmt.Errorf("not supported cmd:%v", ver)
+		return fmt.Errorf("not supported struct:%v", ver)
 	}
 	addr := ""
 	switch atyp {

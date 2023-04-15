@@ -3,9 +3,9 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
 	sql "reptile-test-go/model"
+	"reptile-test-go/struct"
 	"strconv"
 	"strings"
 )
@@ -20,7 +20,7 @@ func StartColly(con *gin.Context) {
 	cl, err := logic.ParseToken(token)
 
 	if err != nil {
-		con.JSON(http.StatusOK, cmd.Response{
+		con.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  err.Error(),
 		})
@@ -28,7 +28,7 @@ func StartColly(con *gin.Context) {
 	}
 
 	if cl.Id != id {
-		con.JSON(http.StatusOK, cmd.Response{
+		con.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  "用户信息错误",
 		})
@@ -36,20 +36,20 @@ func StartColly(con *gin.Context) {
 	}
 
 	if strings.TrimSpace(key) == "" {
-		con.JSON(http.StatusOK, cmd.Response{
+		con.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  "key不能为空",
 		})
 		return
 	}
 
-	var hots []*cmd.Hot
+	var hots []*_struct.Hot
 	if isColly == 0 {
 		logic.GetInfoByJDKey(key, &hots)
 	} else if isColly == 1 {
 		logic.GetInfoByJDKeyBySql(key, &hots)
 	} else {
-		con.JSON(http.StatusOK, cmd.Response{
+		con.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  "isColly error",
 		})
@@ -61,7 +61,7 @@ func StartColly(con *gin.Context) {
 		str = err.Error()
 	}
 
-	con.JSON(http.StatusOK, cmd.Response{
+	con.JSON(http.StatusOK, _struct.Response{
 		StatusCode: 0,
 		StatusMsg:  str,
 		Value:      hots,

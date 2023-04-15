@@ -2,13 +2,13 @@ package sql
 
 import (
 	"fmt"
-	"reptile-test-go/cmd"
+	"reptile-test-go/struct"
 )
 
 //username = phone_number
 
-func CheckLogin(username string, password string) (*cmd.User, error) {
-	var user cmd.User
+func CheckLogin(username string, password string) (*_struct.User, error) {
+	var user _struct.User
 
 	result := db.Select("id").Where("username = ? and password = ?", username, password).Find(&user)
 
@@ -20,7 +20,7 @@ func CheckLogin(username string, password string) (*cmd.User, error) {
 }
 
 func CheckUserExist(username string) bool {
-	var user cmd.User
+	var user _struct.User
 
 	result := db.Select("id").Where("username = ?", username).Find(&user)
 	if result.RowsAffected == 0 {
@@ -30,7 +30,7 @@ func CheckUserExist(username string) bool {
 	return true
 }
 
-func CreateUser(username string, password string) (*cmd.User, error) {
+func CreateUser(username string, password string) (*_struct.User, error) {
 	var nickname string
 	length := len(username)
 	if length > 4 {
@@ -38,7 +38,7 @@ func CreateUser(username string, password string) (*cmd.User, error) {
 	} else {
 		nickname = "用户" + username
 	}
-	user := cmd.User{
+	user := _struct.User{
 		Username:    username,
 		Nickname:    nickname,
 		Password:    password,
@@ -55,7 +55,7 @@ func CreateUser(username string, password string) (*cmd.User, error) {
 	return &user, nil
 }
 
-func FindUserById(id int64) (user *cmd.User, err error) {
+func FindUserById(id int64) (user *_struct.User, err error) {
 
 	result := db.Select("username,nickname,sex,phone_number,email,address,emergency_contact").Where("id = ?", id).Find(&user)
 	if result.RowsAffected == 0 {
@@ -64,7 +64,7 @@ func FindUserById(id int64) (user *cmd.User, err error) {
 	return user, nil
 }
 
-func ModifyUser(user *cmd.User, id int64) error {
+func ModifyUser(user *_struct.User, id int64) error {
 	result := db.Where("id = ?", id).Updates(&user)
 	if result.RowsAffected == 0 {
 		return fmt.Errorf("the user cannot be found")

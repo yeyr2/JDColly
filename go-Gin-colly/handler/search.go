@@ -3,9 +3,9 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
 	"reptile-test-go/model"
+	"reptile-test-go/struct"
 	"strconv"
 )
 
@@ -17,7 +17,7 @@ func SearchInfo(c *gin.Context) {
 
 	cl, err := logic.ParseToken(token)
 	if err != nil {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  err.Error(),
 		})
@@ -25,7 +25,7 @@ func SearchInfo(c *gin.Context) {
 	}
 
 	if cl.Id != id {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  "用户信息错误",
 		})
@@ -34,7 +34,7 @@ func SearchInfo(c *gin.Context) {
 
 	search := sql.GetSearchByClaimsId(cl)
 
-	c.JSON(http.StatusOK, cmd.Response{
+	c.JSON(http.StatusOK, _struct.Response{
 		StatusCode: 0,
 		Value:      search,
 	})

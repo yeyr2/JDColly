@@ -7,15 +7,15 @@ import (
 	"github.com/gocolly/colly/proxy"
 	"log"
 	"net/url"
-	"reptile-test-go/cmd"
 	"reptile-test-go/config"
 	"reptile-test-go/middleware"
 	"reptile-test-go/model"
+	"reptile-test-go/struct"
 	"strings"
 	"time"
 )
 
-func GetInfoByJDKey(key string, hots *[]*cmd.Hot) {
+func GetInfoByJDKey(key string, hots *[]*_struct.Hot) {
 	c := colly.NewCollector(
 		colly.Async(true),
 	)
@@ -39,7 +39,7 @@ func GetInfoByJDKey(key string, hots *[]*cmd.Hot) {
 	c.SetProxyFunc(rp)
 
 	c.OnHTML("li.gl-item", func(e *colly.HTMLElement) {
-		hot := new(cmd.Hot)
+		hot := new(_struct.Hot)
 
 		err := e.Unmarshal(hot)
 		if err != nil {
@@ -86,7 +86,7 @@ func GetInfoByJDKey(key string, hots *[]*cmd.Hot) {
 	go sql.AddShopInfo(hots, key)
 }
 
-func GetInfoByJDKeyBySql(key string, hots *[]*cmd.Hot) {
+func GetInfoByJDKeyBySql(key string, hots *[]*_struct.Hot) {
 	sql.GetShopInfoByKey(key, hots)
 }
 

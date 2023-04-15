@@ -4,8 +4,8 @@ import (
 	"context"
 	"google.golang.org/grpc"
 	"log"
-	"reptile-test-go/cmd"
 	"reptile-test-go/goGRPC/AnalysisByNLP"
+	"reptile-test-go/struct"
 )
 
 var analyzeWordsClient AnalysisByNLP.GreeterClient
@@ -21,7 +21,7 @@ func init() {
 	analyzeWordsClient = AnalysisByNLP.NewGreeterClient(conn)
 }
 
-func AnalysisByNLPRpc(comment *[]cmd.Comments) (int32, []int32) {
+func AnalysisByNLPRpc(comment *[]_struct.Comments) (int32, []int32) {
 	request := cmdFormNLPRPC(comment)
 	response, err := analyzeWordsClient.AnalysisCommentsByNLP(context.Background(), request)
 	if err != nil {
@@ -30,7 +30,7 @@ func AnalysisByNLPRpc(comment *[]cmd.Comments) (int32, []int32) {
 	return response.Fraction, response.Interval
 }
 
-func cmdFormNLPRPC(comment *[]cmd.Comments) *AnalysisByNLP.RpcComment {
+func cmdFormNLPRPC(comment *[]_struct.Comments) *AnalysisByNLP.RpcComment {
 	ans := new(AnalysisByNLP.RpcComment)
 	ans.Content = make([]string, 0, len(*comment))
 	for _, x := range *comment {

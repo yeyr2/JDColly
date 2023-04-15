@@ -1,4 +1,4 @@
-package cmd
+package _struct
 
 import "github.com/dgrijalva/jwt-go"
 

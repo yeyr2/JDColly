@@ -3,9 +3,9 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"reptile-test-go/cmd"
 	"reptile-test-go/logic"
 	sql "reptile-test-go/model"
+	"reptile-test-go/struct"
 	"strconv"
 	"strings"
 )
@@ -21,7 +21,7 @@ func GetComment(c *gin.Context) {
 	logic.Trim(&token)
 
 	if strings.TrimSpace(productId) == "" {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  "商品id为空",
 		})
@@ -30,7 +30,7 @@ func GetComment(c *gin.Context) {
 
 	cl, err := logic.ParseToken(token)
 	if err != nil {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  err.Error(),
 		})
@@ -38,16 +38,16 @@ func GetComment(c *gin.Context) {
 	}
 
 	if cl.Id != id {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  "用户信息错误",
 		})
 		return
 	}
 
-	var analyze cmd.AnalyzeComment
-	var jdComment cmd.JDComment
-	comments := new([]cmd.Comments)
+	var analyze _struct.AnalyzeComment
+	var jdComment _struct.JDComment
+	comments := new([]_struct.Comments)
 
 	if isColly != 1 {
 		// 获取评论
@@ -74,7 +74,7 @@ func GetComment(c *gin.Context) {
 	go logic.WordCloudAnalysis(comments, &analyze, productId, result)
 
 	if !<-flag {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  "没有评论",
 		})
@@ -82,7 +82,7 @@ func GetComment(c *gin.Context) {
 	}
 
 	if !<-result {
-		c.JSON(http.StatusOK, cmd.Response{
+		c.JSON(http.StatusOK, _struct.Response{
 			StatusCode: 1,
 			StatusMsg:  "词云获取异常",
 			Value:      analyze,
@@ -91,7 +91,7 @@ func GetComment(c *gin.Context) {
 	}
 	//setHeader(c)
 
-	c.JSON(http.StatusOK, cmd.Response{
+	c.JSON(http.StatusOK, _struct.Response{
 		StatusCode: 0,
 		StatusMsg:  "",
 		Value:      analyze,

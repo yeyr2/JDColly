@@ -1,7 +1,7 @@
 package sql
 
 import (
-	"reptile-test-go/cmd"
+	"reptile-test-go/struct"
 	"time"
 )
 
@@ -27,7 +27,7 @@ func CommentsLastTime(productId int64) (lastTime int64) {
 	return lastTime
 }
 
-func SaveComment(comments cmd.JDComment, lastTime int64) bool {
+func SaveComment(comments _struct.JDComment, lastTime int64) bool {
 	if len(comments.Comments) == 0 {
 		return false
 	}
@@ -58,12 +58,12 @@ func SaveComment(comments cmd.JDComment, lastTime int64) bool {
 	return true
 }
 
-func GetComments(id string, startTime, lastTime int64) *[]cmd.Comments {
+func GetComments(id string, startTime, lastTime int64) *[]_struct.Comments {
 	sqlComments := make([]sqlComment, 0)
 
 	db.Where("reference_time > ? and reference_time < ? and product_id = ?", startTime, lastTime, id).Find(&sqlComments)
 
-	comments := make([]cmd.Comments, len(sqlComments))
+	comments := make([]_struct.Comments, len(sqlComments))
 	for i, comment := range sqlComments {
 		comments[i].UsefulVoteCount = comment.UsefulVoteCount
 		comments[i].Score = comment.OldScore
