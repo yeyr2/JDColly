@@ -3,7 +3,7 @@ gin.log
 main
 wordsImages
 
-web
+#web
 test
 .idea
 logs

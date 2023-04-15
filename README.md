@@ -22,7 +22,7 @@
 JDColly
 ├─README.md  项目介绍文档
 ├─docker-compose.yml  启动docker
-├─web web前端应用
+├─web web前端
 ├─pyWordCloud  词云制作
 |      ├─Dockerfile  构建docker镜像
 |      ├─service.py  启动

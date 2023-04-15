@@ -85,3 +85,13 @@ services:
 #    dns:
 #      - 8.8.8.8
 #      - 9.9.9.9
+  web:
+    image: yeyr2:web
+    restart: always
+    ports:
+      - "8080:8080"
+    command: npm run serve
+    networks:
+      - jd_comment_network
+    extra_hosts:
+      - "api.embbnux.com:10.98.10.98"
