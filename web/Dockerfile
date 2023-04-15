@@ -1,5 +1,5 @@
 # 使用官方 Node.js 映像作为基础映像
-FROM node:14
+FROM node:17
 
 # 设置工作目录
 WORKDIR /web
