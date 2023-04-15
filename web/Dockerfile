@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # 安装依赖项
 RUN npm install -g cnpm --registry=http://registry.npm.taobao.org && \
+    npm install -g @angular/cli && \
     cnpm install -g @vue/cli && \
     npm install
 
@@ -19,4 +20,5 @@ COPY . .
 EXPOSE 8080
 
 # 启动应用程序
+CMD ["export","DANGEROUSLY_DISABLE_HOST_CHECK=true"]
 CMD [ "npm", "start" ]
